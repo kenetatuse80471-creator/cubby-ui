@@ -82,7 +82,7 @@ export function MenuPopup({
   return (
     <Menu.Portal container={container}>
       <Menu.Positioner
-        data-slot="context-action-menu-positioner"
+        data-slot="context-action-menu"
         align={align}
         side={side}
         sideOffset={sideOffset}
@@ -225,7 +225,6 @@ export function ContextActionMenu({
         }
       />
       <MenuPopup
-        data-slot="context-action-menu"
         aria-label={ariaLabel}
         align={align}
         side={side}
