@@ -51,7 +51,7 @@ export function TooltipProvider(props: TooltipProviderProps) {
   return <TooltipPrimitive.Provider {...props} />;
 }
 
-export interface TooltipTriggerProps extends ComponentProps<typeof TooltipPrimitive.Trigger> {}
+export type TooltipTriggerProps = ComponentProps<typeof TooltipPrimitive.Trigger>;
 
 /**
  * An element to attach the tooltip to. Renders a plain `<button>` by
