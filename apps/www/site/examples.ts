@@ -4,6 +4,7 @@ import type { PreviewSlug } from "@/site/catalog";
 import { readAppFile } from "@/site/source-files";
 
 import AvatarDefault from "@/components/examples/avatar/default";
+import AvatarUnassigned from "@/components/examples/avatar/unassigned";
 import ButtonDefault from "@/components/examples/button/default";
 import ButtonLoading from "@/components/examples/button/loading";
 import ButtonVariants from "@/components/examples/button/variants";
@@ -12,6 +13,7 @@ import DividerDefault from "@/components/examples/divider/default";
 import EmptyStateDefault from "@/components/examples/empty-state/default";
 import IconButtonDefault from "@/components/examples/icon-button/default";
 import IconDefault from "@/components/examples/icon/default";
+import ModalCreate from "@/components/examples/modal/create";
 import ModalDefault from "@/components/examples/modal/default";
 import SelectDefault from "@/components/examples/select/default";
 import SnackbarDefault from "@/components/examples/snackbar/default";
@@ -20,6 +22,7 @@ import SwitchDefault from "@/components/examples/switch/default";
 import SwitchGroup from "@/components/examples/switch/group";
 import TabsDefault from "@/components/examples/tabs/default";
 import TagDefault from "@/components/examples/tag/default";
+import TagRemovable from "@/components/examples/tag/removable";
 import TextAreaDefault from "@/components/examples/text-area/default";
 import TextInputDefault from "@/components/examples/text-input/default";
 import TooltipDefault from "@/components/examples/tooltip/default";
@@ -78,10 +81,19 @@ export const EXAMPLES: Record<PreviewSlug, ExampleList> = {
   "text-input": [example("text-input", "default", "Default", TextInputDefault)],
   "text-area": [example("text-area", "default", "Default", TextAreaDefault)],
   select: [example("select", "default", "Default", SelectDefault)],
-  tag: [example("tag", "default", "Default", TagDefault)],
-  avatar: [example("avatar", "default", "Default", AvatarDefault)],
+  tag: [
+    example("tag", "default", "Default", TagDefault),
+    example("tag", "removable", "Removable", TagRemovable),
+  ],
+  avatar: [
+    example("avatar", "default", "Default", AvatarDefault),
+    example("avatar", "unassigned", "Unassigned", AvatarUnassigned),
+  ],
   "empty-state": [example("empty-state", "default", "Default", EmptyStateDefault)],
-  modal: [example("modal", "default", "Default", ModalDefault)],
+  modal: [
+    example("modal", "default", "Default", ModalDefault),
+    example("modal", "create", "Create board", ModalCreate),
+  ],
   snackbar: [example("snackbar", "default", "Default", SnackbarDefault)],
   "context-action-menu": [
     example("context-action-menu", "default", "Default", ContextActionMenuDefault),

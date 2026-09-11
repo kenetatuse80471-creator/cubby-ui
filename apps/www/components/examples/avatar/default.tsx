@@ -1,14 +1,32 @@
 import { Avatar } from "@/registry/cubby/ui/avatar";
 
+const ASSIGNEES = [
+  { name: "Mira Chen", initials: "MC", tone: "blue" as const },
+  { name: "Noah Ito", initials: "NI", tone: "green" as const },
+  { name: "Priya Rao", initials: "PR", tone: "purple" as const },
+];
+
 /**
- * PLACEHOLDER — renders, but it is not yet a product example.
- * NEXT EXECUTOR: replace with one short, real use, the way `button/default.tsx` is written.
+ * Three people on one task: each avatar overlaps the last and wears a ring
+ * the colour of the surface behind it, so the stack reads as one shape
+ * instead of three circles that happen to touch.
  */
 export default function AvatarDefault() {
   return (
-    <div className="flex items-center gap-2">
-      <Avatar name="Sergey Orshak" initials="SO" />
-      <span className="text-ui-md text-text-1">Sergey Orshak</span>
+    <div className="flex items-center">
+      {ASSIGNEES.map((person, index) => (
+        <Avatar
+          key={person.name}
+          name={person.name}
+          initials={person.initials}
+          tone={person.tone}
+          className={
+            index === 0
+              ? "shadow-[0_0_0_var(--avatar-ring)_var(--bg-surface)]"
+              : "ml-avatar-overlap shadow-[0_0_0_var(--avatar-ring)_var(--bg-surface)]"
+          }
+        />
+      ))}
     </div>
   );
 }

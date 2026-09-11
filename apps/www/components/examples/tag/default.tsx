@@ -1,8 +1,9 @@
 import { Tag } from "@/registry/cubby/ui/tag";
 
 /**
- * PLACEHOLDER — renders, but it is not yet a product example.
- * NEXT EXECUTOR: replace with one short, real use, the way `button/default.tsx` is written.
+ * Two labels on the same task card: a status wears a dot because it can
+ * change under a person's feet, a category does not because it never moves
+ * on its own.
  */
 export default function TagDefault() {
   return (

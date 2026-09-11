@@ -24,8 +24,9 @@ function DeleteButton() {
 }
 
 /**
- * PLACEHOLDER — renders, but it is not yet a product example.
- * NEXT EXECUTOR: replace with one short, real use, the way `button/default.tsx` is written.
+ * The moment right after a destructive action: the task is already gone, and
+ * the one way back is the same bar that confirms it happened, not a second
+ * dialog asking first.
  */
 export default function SnackbarDefault() {
   return (

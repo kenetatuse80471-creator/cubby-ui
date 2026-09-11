@@ -4,8 +4,9 @@ import { Button } from "@/registry/cubby/ui/button";
 import { Modal, ModalClose, ModalTrigger } from "@/registry/cubby/ui/modal";
 
 /**
- * PLACEHOLDER — renders, but it is not yet a product example.
- * NEXT EXECUTOR: replace with one short, real use, the way `button/default.tsx` is written.
+ * The one truly destructive control in the library: the task count makes
+ * the cost concrete, and Cancel sits first so the safe choice is the closer
+ * one to reach.
  */
 export default function ModalDefault() {
   return (
@@ -14,9 +15,7 @@ export default function ModalDefault() {
       description="Every task on it goes with it. This cannot be undone."
       closeLabel="Close"
       kind="destructive"
-      trigger={
-        <ModalTrigger render={<Button variant="danger">Delete board</Button>} />
-      }
+      trigger={<ModalTrigger render={<Button variant="danger">Delete board</Button>} />}
       footer={
         <>
           <ModalClose render={<Button variant="text">Cancel</Button>} />
@@ -24,9 +23,7 @@ export default function ModalDefault() {
         </>
       }
     >
-      <p className="text-ui-md-regular text-text-body">
-        The board «Launch» holds 14 tasks.
-      </p>
+      <p className="text-ui-md-regular text-text-body">The board «Launch» holds 14 tasks.</p>
     </Modal>
   );
 }
