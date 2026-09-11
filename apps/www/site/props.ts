@@ -112,7 +112,8 @@ const cache = new Map<string, ComponentPropsDoc[]>();
 export function getComponentProps(relToRepoRoot: string): ComponentPropsDoc[] {
   if (!relToRepoRoot.endsWith(".tsx")) return [];
 
-  const absolute = path.join(REPO_ROOT, relToRepoRoot);
+  // See the note in `source-files.ts` on why tracing is opted out of here.
+  const absolute = path.join(/* turbopackIgnore: true */ REPO_ROOT, relToRepoRoot);
   const cached = cache.get(absolute);
   if (cached) return cached;
 

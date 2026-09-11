@@ -1,27 +1,41 @@
-# `apps/www` — phase 2
+# `apps/www` — the Cubby UI site
 
-The Cubby UI site: showcase, documentation, and the registry endpoints. **Empty on purpose.**
+The showcase, the documentation and the registry endpoints. Scaffolded 12.09.2026; the shell and
+the landing page are structural placeholders waiting for the visual pass.
 
-The plan, decided 11.09.2026: fork the documentation shell of
-[beUI](https://github.com/starc007/ui-components) (MIT, Copyright (c) 2026 Saurabh Chauhan) rather
-than build a Fumadocs site from scratch. The fork brings a catalogue-driven architecture that
-generates registry JSON, `.md` mirrors, `llms.txt`, an MCP server and an OAuth Pro gate — all of
-which match how this project already works, since everything here is generated from one source.
+```bash
+pnpm install
+pnpm --filter www dev     # http://localhost:4320
+pnpm --filter www build
+```
 
-Four conditions attached to that decision:
+`dev` and `build` both run `registry:build` first, which regenerates `apps/www/public/r/` with the
+shadcn CLI. That directory is git-ignored: the JSON is a build product of the root `registry.json`.
 
-1. **Phase 1 comes first.** The beUI shell is built out of 19 of its own components; there is
-   nothing to replace them with until Cubby UI has its own primitives. Rewriting those 19 call
-   sites turns the site into a dogfooding stand — that is the point of doing it in this order.
-2. **Aggressive cleanup at fork time.** The beUI component library, previews, agent guides, brand
-   assets, landing copy, testimonials and sponsor lists are deleted, not adapted.
-3. **Restyle before any public announcement.** Cubby tokens, own typography, own landing.
-   Publishing with their hero and their words is not acceptable, legally or otherwise.
-4. **Licence hygiene**: own `LICENSE`, `THIRD-PARTY-NOTICES.md` completed in the fork PR, a credit
-   line in the README and in the site footer.
+## What is where
 
-Also settled in advance: `/r/` (free, static) and `/pro/` (token-gated) are separate routes from
-day one, even while `/pro/` is empty, so monetisation never requires a re-architecture.
+| Path | What lives there |
+| --- | --- |
+| `app/` | Routes. Pages, the machine endpoints (`/r/*.md`, `/registry.json`, `/llms*.txt`), `robots`, `sitemap`, `manifest`. |
+| `app/globals.css` | Tailwind, the tokens, Inter, the Shiki theme swap. |
+| `app/site-theme.css` | The shell's own scale — measured, `--site-*`, not part of the library. |
+| `site/` | Server-side machinery: the catalogue, the registry reader, the examples map, Shiki, the props extractor, the markdown mirror. **Not `lib/`** — see below. |
+| `components/` | React components of the site, including `components/examples/`. |
 
-Note on tooling: beUI runs on Bun and Biome, this repository on pnpm and Turborepo. The cheaper
-choice is to leave the fork's own tooling inside `apps/www` rather than rewrite ~11 000 lines.
+### Why `site/` and not `lib/`
+
+Registry sources import `@/lib/cn` and `@/registry/cubby/ui/*`, and those two prefixes have to
+resolve into `packages/registry/src` — which means this app cannot also own `@/lib/*`. The three
+aliases in `tsconfig.json` are ordered by specificity, and `@/*` falls through to this package, so
+the site's own machinery lives in `site/` and is imported as `@/site/…`.
+
+## Decided in advance, still true
+
+- `/r/` (free, static) and `/pro/` (reserved) are separate routes from day one, so monetisation
+  never requires a re-architecture. `/pro/*` answers 404 and there is no access check by design.
+- Licence hygiene: parts of the machinery are derived from beUI (MIT). `THIRD-PARTY-NOTICES.md`
+  lists them file by file with the upstream commit, and the footer carries the credit line.
+
+Two things changed against the original plan (recorded in `REPORT-www-scaffold.md`): the fork was
+not taken wholesale — eleven files were adapted and the rest written here — and the app runs on
+this repository's own tooling (pnpm, ESLint 9, Turborepo), not on beUI's Bun and Biome.

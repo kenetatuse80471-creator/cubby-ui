@@ -17,12 +17,22 @@ import path from "node:path";
  *   `next dev` / `next build`, and what the example paths are relative to
  *   (`components/examples/button/default.tsx`).
  */
+/*
+ * About `turbopackIgnore` below. Turbopack sees a `path.join` whose second half is a
+ * variable and concludes it cannot know which files the route will open, so it traces
+ * the entire project into the server output — `public/` included. Every route that
+ * reads through this module is `force-static`: the reads happen during `next build`,
+ * and the built page carries the text, not the reader. For the one case where that
+ * stops being true — a route turned dynamic later — `next.config.mjs` names these
+ * directories in `outputFileTracingIncludes` explicitly, which is a list a human can
+ * read instead of a guess the bundler makes.
+ */
 const APP_ROOT = process.cwd();
 const REPO_ROOT = path.resolve(APP_ROOT, "..", "..");
 
 /** Read a file addressed the way `registry.json` addresses it. */
 export async function readRepoFile(relToRepoRoot: string) {
-  const absolute = path.join(REPO_ROOT, relToRepoRoot);
+  const absolute = path.join(/* turbopackIgnore: true */ REPO_ROOT, relToRepoRoot);
   try {
     return await fs.readFile(absolute, "utf8");
   } catch (error) {
@@ -34,7 +44,7 @@ export async function readRepoFile(relToRepoRoot: string) {
 
 export async function readOptionalRepoFile(relToRepoRoot: string) {
   try {
-    return await fs.readFile(path.join(REPO_ROOT, relToRepoRoot), "utf8");
+    return await fs.readFile(path.join(/* turbopackIgnore: true */ REPO_ROOT, relToRepoRoot), "utf8");
   } catch {
     return null;
   }
@@ -42,7 +52,7 @@ export async function readOptionalRepoFile(relToRepoRoot: string) {
 
 /** Read a file of this app — an example file, for instance. */
 export async function readAppFile(relToAppRoot: string) {
-  const absolute = path.join(APP_ROOT, relToAppRoot);
+  const absolute = path.join(/* turbopackIgnore: true */ APP_ROOT, relToAppRoot);
   try {
     return await fs.readFile(absolute, "utf8");
   } catch (error) {
