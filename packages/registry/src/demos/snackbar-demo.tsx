@@ -1,6 +1,6 @@
 import { Button } from "@/registry/cubby/ui/button";
 import { Snackbar, SnackbarProvider, useSnackbar } from "@/registry/cubby/ui/snackbar";
-import { DemoCell, DemoGrid, DemoRow } from "@/registry/cubby/demos/demo";
+import { DemoGrid, DemoRow } from "@/registry/cubby/demos/demo";
 
 /**
  * The live viewport is fixed to the bottom left of the window, outside the
@@ -54,15 +54,13 @@ function LiveSnackbars() {
 function SnackbarDemo() {
   return (
     <DemoGrid>
-      <DemoRow label="Три вида — 44 высотой, плашка plate, тень overlay">
-        <DemoCell label="undo · 5 секунд, пауза на наведении">
-          <Snackbar
-            kind="undo"
-            message="Задача перенесена в «Готово»"
-            actionLabel="Отменить"
-            closeLabel="Закрыть"
-          />
-        </DemoCell>
+      <DemoRow label="undo · 5 секунд, пауза на наведении · 44 высотой, плашка plate, тень overlay">
+        <Snackbar
+          kind="undo"
+          message="Задача перенесена в «Готово»"
+          actionLabel="Отменить"
+          closeLabel="Закрыть"
+        />
       </DemoRow>
 
       <DemoRow label="quiet · 3 секунды, без действия и без крестика">
