@@ -1,18 +1,19 @@
+import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
 
 import { CodeBlock } from "@/components/code-block";
-import { InstallCommand } from "@/components/install-command";
+import { ExampleTabs } from "@/components/example-tabs";
+import { InstallBlock } from "@/components/install-block";
 import { NewBadge } from "@/components/new-badge";
+import { PreviewWell } from "@/components/preview-well";
 import { PropsTable } from "@/components/props-table";
-import {
-  catalogByGroup,
-  catalogNeighbours,
-  catalogSlugs,
-  entryIsNew,
-  findCatalogEntry,
-} from "@/site/catalog";
+import { cn } from "@/lib/cn";
+import { buttonVariants } from "@/registry/cubby/ui/button";
+import { Icon } from "@/registry/cubby/ui/icon";
+import { catalogNeighbours, catalogSlugs, entryIsNew, findCatalogEntry } from "@/site/catalog";
 import { examplesFor, readExampleSource } from "@/site/examples";
 import { getComponentProps } from "@/site/props";
 import { dependencyName, registryDependencySlug } from "@/site/registry-data";
@@ -39,48 +40,59 @@ export async function generateMetadata({
   };
 }
 
-/** The catalogue, as the left column. Part of the shell the next executor restyles. */
-function CatalogueNav({ current }: { current: string }) {
+/**
+ * One section of a component page.
+ *
+ * The rule separating them is measured (§1.3): a 1px alpha stroke, 20px of air
+ * above it and 20 below. It is the only horizontal line on the page, and the first
+ * section does without it — a rule under the description would read as a header
+ * underline rather than as a divider.
+ *
+ * The heading carries the `id` the table of contents reads (`components/docs-toc.tsx`
+ * collects `h2[id]` and `h3[id]` from the rendered page), so a section added here
+ * appears in the right column without anyone maintaining a second list.
+ */
+function Section({
+  id,
+  title,
+  tocLabel,
+  aside,
+  first,
+  children,
+}: {
+  id: string;
+  title: string;
+  /** Shorter wording for the 256px column, when the heading is long. */
+  tocLabel?: string;
+  /** Right-hand side of the heading row — a file badge, usually. */
+  aside?: ReactNode;
+  first?: boolean;
+  children: ReactNode;
+}) {
   return (
-    <nav aria-label="Components" className="flex flex-col gap-5">
-      {catalogByGroup().map(({ group, entries }) => (
-        <div key={group.id} className="flex flex-col gap-1">
-          <span className="px-2 text-site-eyebrow text-text-3 uppercase">{group.title}</span>
-          {entries.map((entry) => (
-            <Link
-              key={entry.slug}
-              href={`/components/${entry.slug}`}
-              aria-current={entry.slug === current ? "page" : undefined}
-              className={
-                entry.slug === current
-                  ? "rounded-role-control bg-film-2 px-2 py-1 text-ui-md text-text-1"
-                  : "rounded-role-control px-2 py-1 text-ui-md-regular text-text-2 hover:bg-film-1 hover:text-text-1"
-              }
-            >
-              {entry.item.title}
-            </Link>
-          ))}
-        </div>
-      ))}
-    </nav>
+    <section
+      className={cn(
+        "flex scroll-mt-site-sticky flex-col gap-4",
+        !first && "border-t border-site-border pt-5",
+      )}
+    >
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 id={id} data-toc-label={tocLabel} className="text-heading-h2 text-text-1">
+          {title}
+        </h2>
+        {aside}
+      </div>
+      {children}
+    </section>
   );
 }
 
-/** «On this page» — the right column. Built from the very sections rendered below. */
-function OnThisPage({ sections }: { sections: { id: string; title: string }[] }) {
+/** The file an example lives in — monospace on a 13 % film, as measured (§1.1). */
+function FileBadge({ path }: { path: string }) {
   return (
-    <nav aria-label="On this page" className="flex flex-col gap-2">
-      <span className="text-site-eyebrow text-text-3 uppercase">On this page</span>
-      {sections.map((section) => (
-        <a
-          key={section.id}
-          href={`#${section.id}`}
-          className="text-ui-md-regular text-text-2 hover:text-text-1"
-        >
-          {section.title}
-        </a>
-      ))}
-    </nav>
+    <span className="rounded-role-tag bg-film-2 px-2 py-1 font-site-mono text-caption-sm text-text-2">
+      {path}
+    </span>
   );
 }
 
@@ -102,165 +114,229 @@ export default async function ComponentPage({ params }: { params: Promise<{ slug
   const propDocs = item.files.flatMap((file) => getComponentProps(file.path));
   const { previous, next } = catalogNeighbours(entry.slug);
 
-  const sections = [
-    ...exampleSources.map(({ example }) => ({
-      id: `example-${example.id}`,
-      title: example.title,
-    })),
-    { id: "install", title: "Install" },
-    { id: "source", title: "Source" },
-    { id: "dependencies", title: "Dependencies" },
-    ...(propDocs.length > 0 ? [{ id: "props", title: "Props" }] : []),
-  ];
-
   return (
-    /*
-     * Three columns, measured: sidebar 240, content 816, «On this page» 256, gutter 32
-     * (reference spec §6.1). Those add up to 1376, which is wider than the spec's own
-     * 1280 container — on the references the docs shell is full-bleed and only the
-     * landing is capped, so that is what happens here: no `max-w-site` on this row,
-     * and the content column carries the 816 cap itself.
-     */
-    <div className="mx-auto flex w-full gap-site-gutter px-site-gutter py-site-section-top">
-      <aside className="hidden w-site-sidebar shrink-0 lg:block">
-        <div className="sticky top-site-header">
-          <CatalogueNav current={entry.slug} />
+    <article className="flex flex-col gap-6">
+      <nav aria-label="Breadcrumb" className="text-ui-md-regular text-text-2">
+        <Link
+          href="/components"
+          className="transition-colors duration-(--site-dur-base) ease-site hover:text-text-1"
+        >
+          Components
+        </Link>
+        <span aria-hidden className="px-2 text-text-3">
+          /
+        </span>
+        <span className="text-text-1">{item.title}</span>
+      </nav>
+
+      <header className="flex flex-col gap-2">
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="text-site-h1 font-semibold text-text-1">{item.title}</h1>
+          {entryIsNew(entry) ? <NewBadge /> : null}
+          {item.version ? (
+            <span className="font-site-mono text-site-code text-text-3">v{item.version}</span>
+          ) : null}
+          {/*
+            The page as plain text, for an agent. `/r/<slug>.md` is the markdown
+            mirror this site already serves; a link is all it takes, and a link is
+            honest in a way a «Copy page» button that silently writes to the
+            clipboard is not.
+          */}
+          <a
+            href={`/r/${entry.slug}.md`}
+            className={cn(
+              buttonVariants({ variant: "secondary", size: "compact" }),
+              "sm:ml-auto",
+            )}
+          >
+            View as Markdown
+          </a>
         </div>
-      </aside>
+        <p className="max-w-site-lead text-site-lead text-text-body">{item.description}</p>
+      </header>
 
-      <article className="flex min-w-0 max-w-site-content flex-1 flex-col gap-10">
-        <header className="flex flex-col gap-3">
-          <div className="flex flex-wrap items-center gap-3">
-            <h1 className="text-site-h2 text-text-1">{item.title}</h1>
-            {entryIsNew(entry) ? <NewBadge /> : null}
-            {item.version ? (
-              <span className="font-site-mono text-site-code text-text-3">v{item.version}</span>
-            ) : null}
-          </div>
-          <p className="text-body-md text-text-body">{item.description}</p>
-        </header>
-
-        {/*
-          NEXT EXECUTOR: preview and code are two stacked blocks on purpose. The
-          registry's own `Tabs` primitive is not in `main` yet; when it is, wrap each
-          example below in one `Tabs` with a «Preview» and a «Code» panel — the pair is
-          already there (`exampleSources` holds the rendered component and the source of
-          the very same file), so only the container changes. Spec §6.1 item 4 describes
-          the pill: radius `--radius-full`, height 40, padding 4.
-        */}
-        {exampleSources.map(({ example, source }) => (
-          <section key={example.id} id={`example-${example.id}`} className="flex flex-col gap-3">
-            <h2 className="text-heading-h2 text-text-1">{example.title}</h2>
-            <div className="flex min-h-comp-surface-header items-center justify-center rounded-site-well border border-site-border bg-bg-surface p-8 inset-shadow-site-highlight">
-              <example.Component />
-            </div>
-            <CodeBlock code={source} lang={codeLanguage(example.file)} label={example.file} />
-          </section>
+      <div className="mt-4 flex flex-col gap-5">
+        {exampleSources.map(({ example, source }, index) => (
+          <Section
+            key={example.id}
+            id={`example-${example.id}`}
+            title={example.title}
+            aside={<FileBadge path={example.file} />}
+            first={index === 0}
+          >
+            <ExampleTabs
+              preview={
+                <PreviewWell>
+                  <example.Component />
+                </PreviewWell>
+              }
+              code={
+                <CodeBlock
+                  code={source}
+                  lang={codeLanguage(example.file)}
+                  label={example.file}
+                />
+              }
+            />
+          </Section>
         ))}
 
-        <section id="install" className="flex flex-col gap-3">
-          <h2 className="text-heading-h2 text-text-1">Install</h2>
-          <InstallCommand slug={entry.slug} />
+        <Section id="install" title="Installation" first={exampleSources.length === 0}>
+          <InstallBlock
+            slug={entry.slug}
+            dependencies={item.dependencies}
+            files={item.files.map((file) => file.path)}
+          />
+          {/*
+            The registry's own note for this item. It arrives as plain text with its
+            own line breaks (`tokens` explains an import order that way), so it keeps
+            them — inside a quiet panel rather than loose under the box, where a
+            three-line `@import` listing reads like leftover output.
+          */}
           {item.docs ? (
-            <p className="whitespace-pre-line text-caption-sm text-text-2">{item.docs}</p>
+            <div className="rounded-site-block border border-site-border bg-film-1 px-4 py-3">
+              <p className="whitespace-pre-line text-caption-sm text-text-2">{item.docs}</p>
+            </div>
           ) : null}
-        </section>
 
-        <section id="source" className="flex flex-col gap-3">
-          <h2 className="text-heading-h2 text-text-1">Source</h2>
-          {sources.map(({ file, source }) => (
-            <details key={file.path}>
-              <summary className="cursor-pointer rounded-site-block px-3 py-2 font-site-mono text-site-code text-text-2 hover:bg-film-1 hover:text-text-1">
-                {file.path}
-              </summary>
-              <div className="pt-3">
-                <CodeBlock code={source} lang={codeLanguage(file.path)} label={file.path} />
-              </div>
-            </details>
-          ))}
-        </section>
-
-        <section id="dependencies" className="flex flex-col gap-4">
-          <h2 className="text-heading-h2 text-text-1">Dependencies</h2>
-          <div className="flex flex-col gap-2">
-            <span className="text-site-eyebrow text-text-3 uppercase">Packages</span>
-            {item.dependencies.length > 0 ? (
-              <ul className="flex flex-wrap gap-2">
-                {item.dependencies.map((dependency) => (
-                  <li
-                    key={dependency}
-                    className="rounded-site-block border border-site-border-strong px-2 py-1 font-site-mono text-site-code text-text-2"
-                  >
-                    {dependencyName(dependency)}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-caption-sm text-text-2">No external packages.</p>
-            )}
-          </div>
-          <div className="flex flex-col gap-2">
-            <span className="text-site-eyebrow text-text-3 uppercase">Registry</span>
-            {item.registryDependencies.length > 0 ? (
-              <ul className="flex flex-wrap gap-2">
-                {item.registryDependencies.map((dependency) => {
+          <h3
+            id="dependencies"
+            className="mt-2 text-heading-h3 scroll-mt-site-sticky text-text-1"
+          >
+            Dependencies
+          </h3>
+          <div className="flex flex-col gap-3">
+            <DependencyRow label="Packages">
+              {item.dependencies.length > 0 ? (
+                item.dependencies.map((dependency) => (
+                  <Chip key={dependency}>{dependencyName(dependency)}</Chip>
+                ))
+              ) : (
+                <span className="text-caption-sm text-text-3">None.</span>
+              )}
+            </DependencyRow>
+            <DependencyRow label="Registry">
+              {item.registryDependencies.length > 0 ? (
+                item.registryDependencies.map((dependency) => {
                   const dependencySlug = registryDependencySlug(dependency);
                   return (
-                    <li key={dependency}>
-                      <Link
-                        href={`/components/${dependencySlug}`}
-                        className="inline-block rounded-site-block border border-site-border-strong px-2 py-1 font-site-mono text-site-code text-text-2 hover:text-text-1"
-                      >
-                        {dependencySlug}
-                      </Link>
-                    </li>
+                    <Link key={dependency} href={`/components/${dependencySlug}`}>
+                      <Chip interactive>{dependencySlug}</Chip>
+                    </Link>
                   );
-                })}
-              </ul>
-            ) : (
-              <p className="text-caption-sm text-text-2">Nothing else from the registry.</p>
-            )}
+                })
+              ) : (
+                <span className="text-caption-sm text-text-3">None.</span>
+              )}
+            </DependencyRow>
           </div>
-        </section>
+        </Section>
+
+        <Section id="source" title="Source">
+          <div className="flex flex-col gap-4">
+            {sources.map(({ file, source }) => (
+              <CodeBlock
+                key={file.path}
+                code={source}
+                lang={codeLanguage(file.path)}
+                label={file.path}
+              />
+            ))}
+          </div>
+        </Section>
 
         {propDocs.length > 0 ? (
-          <section id="props" className="flex flex-col gap-3">
-            <h2 className="text-heading-h2 text-text-1">Props</h2>
+          <Section id="props" title="Props">
             <PropsTable docs={propDocs} />
-          </section>
+          </Section>
         ) : null}
+      </div>
 
-        <nav className="flex items-center justify-between gap-4 border-t border-site-border pt-6">
-          {previous ? (
-            <Link
-              href={`/components/${previous.slug}`}
-              className="flex flex-col gap-1 text-ui-md-regular text-text-2 hover:text-text-1"
-            >
-              <span className="text-site-eyebrow text-text-3 uppercase">Previous</span>
-              {previous.item.title}
-            </Link>
-          ) : (
-            <span />
-          )}
-          {next ? (
-            <Link
-              href={`/components/${next.slug}`}
-              className="flex flex-col items-end gap-1 text-ui-md-regular text-text-2 hover:text-text-1"
-            >
-              <span className="text-site-eyebrow text-text-3 uppercase">Next</span>
-              {next.item.title}
-            </Link>
-          ) : (
-            <span />
-          )}
-        </nav>
-      </article>
+      <nav
+        aria-label="Neighbouring components"
+        className="mt-4 grid grid-cols-1 gap-3 border-t border-site-border pt-5 sm:grid-cols-2"
+      >
+        {previous ? (
+          <NeighbourLink
+            href={`/components/${previous.slug}`}
+            eyebrow="Previous"
+            title={previous.item.title}
+            direction="previous"
+          />
+        ) : (
+          <span />
+        )}
+        {next ? (
+          <NeighbourLink
+            href={`/components/${next.slug}`}
+            eyebrow="Next"
+            title={next.item.title}
+            direction="next"
+          />
+        ) : null}
+      </nav>
+    </article>
+  );
+}
 
-      <aside className="hidden w-site-toc shrink-0 xl:block">
-        <div className="sticky top-site-header">
-          <OnThisPage sections={sections} />
-        </div>
-      </aside>
+function DependencyRow({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <span className="text-site-eyebrow font-semibold text-text-3 uppercase">{label}</span>
+      <span className="flex flex-wrap items-center gap-2">{children}</span>
     </div>
+  );
+}
+
+function Chip({ children, interactive }: { children: ReactNode; interactive?: boolean }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex h-control-h-sm items-center rounded-role-tag border border-site-border px-2",
+        "font-site-mono text-site-code text-text-2",
+        "transition-colors duration-(--site-dur-base) ease-site",
+        interactive && "hover:border-site-border-strong hover:text-text-1",
+      )}
+    >
+      {children}
+    </span>
+  );
+}
+
+/**
+ * Previous / next. One box each, and the hover changes exactly one property — the
+ * stroke, 5 % to 10 % (§5, technique 7). No lift, no shadow, no tint.
+ */
+function NeighbourLink({
+  href,
+  eyebrow,
+  title,
+  direction,
+}: {
+  href: string;
+  eyebrow: string;
+  title: string;
+  direction: "previous" | "next";
+}) {
+  const forward = direction === "next";
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "flex items-center gap-3 rounded-site-block border border-site-border px-4 py-3",
+        "transition-colors duration-(--site-dur-panel) ease-site hover:border-site-border-strong",
+        forward && "sm:col-start-2 sm:flex-row-reverse sm:text-right",
+      )}
+    >
+      <Icon
+        icon={forward ? ArrowRight01Icon : ArrowLeft01Icon}
+        size="lg"
+        className="text-text-3"
+      />
+      <span className="flex min-w-0 flex-col gap-1">
+        <span className="text-site-eyebrow font-semibold text-text-3 uppercase">{eyebrow}</span>
+        <span className="truncate text-ui-md text-text-1">{title}</span>
+      </span>
+    </Link>
   );
 }
