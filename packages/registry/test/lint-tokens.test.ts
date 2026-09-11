@@ -52,6 +52,34 @@ describe("lint:tokens", () => {
     expect(lintSource(source, "probe.tsx")).toEqual([]);
   });
 
+  it("does not mistake a quoted, digit-leading variant key for a class", () => {
+    // "2xl" cannot be a bare identifier key, so it is quoted like a class value would be —
+    // modal.tsx's `variants: { size: { "2xl": "max-w-modal-w-2xl" } }` is the real case.
+    const source = [
+      'const a = cva("flex", {',
+      '  variants: { size: { "2xl": "max-w-modal-w-2xl" } },',
+      "});",
+    ].join("\n");
+    expect(lintSource(source, "probe.tsx")).toEqual([]);
+  });
+
+  it("does not mistake a nested cva-function call's arguments for classes", () => {
+    // `avatarVariants({ variant: tone ? "neutral" : variant })` inside `cn(...)`: "neutral" is
+    // a variant key one call away, not a class next to `cn`'s other arguments.
+    const source = [
+      'const avatarVariants = cva("", { variants: { variant: { neutral: "bg-film-2" } } });',
+      'const a = cn(avatarVariants({ variant: tone ? "neutral" : variant }), className);',
+    ].join("\n");
+    expect(lintSource(source, "probe.tsx")).toEqual([]);
+  });
+
+  it("does not mistake a comparison operand for a class", () => {
+    // `size === "sm"` is empty-state.tsx's real shape: the class lives in the ternary's
+    // branches, not in the condition that picks one.
+    const source = 'const a = cn("text-text-2", size === "sm" ? "max-w-sm" : "max-w-md");';
+    expect(lintSource(source, "probe.tsx")).toEqual([]);
+  });
+
   it("does not mistake a directive prologue for a class list", () => {
     // Switch carries "use client" as its very first line — two words, no cva/cn/className
     // in sight, and not a token problem either. `class-list-out-of-place` used to fire on it.

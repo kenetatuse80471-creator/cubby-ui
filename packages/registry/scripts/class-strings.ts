@@ -181,6 +181,16 @@ function isComparisonOperand(masked: string, literal: Literal): boolean {
   return /[=!]==?\s*$/.test(before) || /^\s*[=!]==?/.test(after);
 }
 
+/**
+ * True for a literal immediately followed by `:` — an object *key*, never a class. Every
+ * variant name that happens to need quoting (`"2xl"`, because a bare identifier cannot start
+ * with a digit) sits inside the same `variants: { size: { ... } }` block as the classes it
+ * maps to, so the block scan below cannot tell them apart by position alone.
+ */
+function isObjectKey(masked: string, literal: Literal): boolean {
+  return /^\s*:/.test(masked.slice(literal.end + 1));
+}
+
 /** Every string literal that becomes part of a `class` attribute. */
 export function classLiterals(source: string): Literal[] {
   const scan = scanSource(source);
@@ -188,6 +198,7 @@ export function classLiterals(source: string): Literal[] {
   const variantsFns = variantsFunctionNames(scan.masked);
   const take = (literal: Literal) => {
     if (isComparisonOperand(scan.masked, literal)) return;
+    if (isObjectKey(scan.masked, literal)) return;
     found.set(literal.start, literal);
   };
 
