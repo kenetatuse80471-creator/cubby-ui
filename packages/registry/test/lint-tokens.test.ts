@@ -55,6 +55,19 @@ describe("lint:tokens", () => {
     expect(clean('const a = cva("opacity-(--opacity-disabled)");')).toEqual([]);
   });
 
+  it("forbids Tailwind's own duration scale, only a token passes", () => {
+    const rules = (source: string) => new Set(lintSource(source, "probe.tsx").map((f) => f.rule));
+    const clean = (source: string) => lintSource(source, "probe.tsx");
+
+    expect(rules('const a = cva("duration-300");').has("duration-literal")).toBe(true);
+    // Same gap `z-50` had before z-index-literal existed: no brackets, no unit suffix, a plain
+    // Tailwind default-scale utility that none of the other five rules can see.
+    expect(rules('const a = cn("duration-300 ease-standard");').has("duration-literal")).toBe(
+      true,
+    );
+    expect(clean('const a = cva("duration-(--motion-fast)");')).toEqual([]);
+  });
+
   it("lets a token reference through", () => {
     const clean = (source: string) => lintSource(source, "probe.tsx");
 

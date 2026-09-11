@@ -18,7 +18,13 @@
  *   6. Tailwind's own default `opacity-<n>` scale, except `opacity-0` and `opacity-100` — those
  *      two are "invisible"/"fully visible", a state rather than a design value (an
  *      `data-starting-style:opacity-0` transition, `hover:opacity-100` meaning "no longer
- *      dimmed"), everything in between is `--opacity-disabled` or nothing.
+ *      dimmed"), everything in between is `--opacity-disabled` or nothing;
+ *   7. Tailwind's own default `duration-<n>` scale — `duration-300` fails, `duration-(--motion-
+ *      fast)` passes. Unlike colour/radius/shadow/text, there is no `--duration-*` theme
+ *      namespace to reset in `theme.css` — Tailwind computes `duration-<n>` directly in the
+ *      engine (see packages/tokens/dist/theme.css's own comment, and REPORT-theme-reset.md) —
+ *      so this rule is the only lever that exists for it, the same way it already is for
+ *      z-index and opacity above.
  *
  * It also refuses multi-token strings written outside `cva`, `cn` and `className`: those would
  * be classes the "every class compiles" test cannot see.
@@ -48,6 +54,7 @@ const TOKEN_REFERENCE = /var\(\s*--[A-Za-z][\w-]*\s*\)|--[A-Za-z][\w-]*/g;
 const ARBITRARY_GROUP = /\[[^\]]*\]|\([^)]*\)/g;
 const Z_INDEX_SCALE = /^-?z-\d+$/;
 const OPACITY_SCALE = /^opacity-(\d+)$/;
+const DURATION_SCALE = /^duration-\d+$/;
 const IGNORE = /cubby-ui-lint-ignore/;
 
 /**
@@ -124,6 +131,10 @@ export function lintSource(source: string, file: string): Finding[] {
       const opacity = OPACITY_SCALE.exec(utility);
       if (opacity && opacity[1] !== "0" && opacity[1] !== "100") {
         report(literal.start, "opacity-literal", candidate);
+      }
+
+      if (DURATION_SCALE.test(utility)) {
+        report(literal.start, "duration-literal", candidate);
       }
     }
   }

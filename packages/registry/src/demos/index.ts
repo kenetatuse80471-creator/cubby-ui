@@ -15,6 +15,8 @@ import * as contextActionMenu from "@/registry/cubby/demos/context-action-menu-d
 import * as textInput from "@/registry/cubby/demos/text-input-demo";
 import * as textArea from "@/registry/cubby/demos/text-area-demo";
 import * as select from "@/registry/cubby/demos/select-demo";
+import * as tabs from "@/registry/cubby/demos/tabs-demo";
+import * as tooltip from "@/registry/cubby/demos/tooltip-demo";
 
 /** Order of the page: the foundation first, the composed ones last. */
 export const demos: Demo[] = [
@@ -33,6 +35,8 @@ export const demos: Demo[] = [
   textInput,
   textArea,
   select,
+  tabs,
+  tooltip,
 ];
 
 export type { Demo };

@@ -17,6 +17,39 @@
  * `@layer theme` and unlayered declarations win.
  * ========================================================================== */
 
+/* Resets Tailwind's own default scales before the Cubby UI tokens below are declared, so a
+ * class without a token (`p-9`, `text-lg`, `rounded-2xl`, `shadow-md`, `bg-red-500`, ...)
+ * produces no CSS at all, instead of silently compiling from Tailwind's bundled values. Order
+ * is load-bearing: `NAMESPACE-*: initial` clears every entry already set in that namespace
+ * *so far* — here, that is only Tailwind's bundled defaults (always processed before this
+ * file), so a later Cubby entry of the same name below (`--radius-xl`, `--ease-linear`) still
+ * wins. Placed after the `@theme inline` block instead, the same line would erase those Cubby
+ * entries too — verified both ways with a real Tailwind build, see REPORT-theme-reset.md.
+ *
+ * Left out on purpose: `--breakpoint-*` (sm:/md:/lg:/xl: variants are used throughout the
+ * registry), `--container-*` (unused today, and the bare `container` utility already keys
+ * its steps off --breakpoint-*, so it is not a pure Tailwind-default bypass), `--animate-*`
+ * (would delete Tailwind's own `animate-spin` utility, which Spinner still uses — it
+ * overrides only the *value* of --animate-spin via an arbitrary property, not the utility
+ * itself). `duration-<n>`, `opacity-<n>`, `z-<n>` have no backing theme namespace at all —
+ * Tailwind computes them directly in the engine — so no line here can reach them; the latter
+ * two already have a lint-tokens.ts rule (z-index-literal, opacity-literal) and duration-<n>
+ * now has one too (duration-literal).
+ */
+@theme {
+  --color-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --text-*: initial;
+  --font-*: initial;
+  --spacing: initial;
+  --ease-*: initial;
+  --blur-*: initial;
+  --tracking-*: initial;
+  --leading-*: initial;
+  --perspective-*: initial;
+}
+
 @theme inline {
   /* Colours — a var() reference so the utility follows the active theme. */
   --color-bg-app: var(--bg-app);

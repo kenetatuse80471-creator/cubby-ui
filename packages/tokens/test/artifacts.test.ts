@@ -130,7 +130,11 @@ test("theme.css only maps into namespaces Tailwind v4 actually has", () => {
     "--shadow-",
     "--ease-",
   ];
-  const block = themeCss.slice(themeCss.indexOf("@theme inline"));
+  // Anchored to the rule itself (start of line), not a prose mention of "@theme inline" in a
+  // comment above it — theme.css's own reset-block comment now names the block it precedes.
+  const inlineBlock = /^@theme inline \{/m.exec(themeCss);
+  assert.ok(inlineBlock, "could not find the @theme inline rule in theme.css");
+  const block = themeCss.slice(inlineBlock.index);
   for (const [, name] of block.matchAll(/^\s{2}(--[A-Za-z0-9_-]+):/gm)) {
     assert.ok(
       allowed.some((prefix) => (name as string).startsWith(prefix)),
@@ -159,7 +163,15 @@ test("Tailwind v4 compiles theme.css and produces utilities from our tokens", ()
   );
   writeFileSync(
     join(dir, "index.html"),
-    '<div class="bg-bg-app text-text-1 rounded-role-card p-3 gap-2 h-control-h-md shadow-popover ease-standard text-ui-md sm:block"></div>',
+    [
+      '<div class="bg-bg-app text-text-1 rounded-role-card p-3 gap-2 h-control-h-md shadow-popover ease-standard text-ui-md sm:block"></div>',
+      // The reset probe: classes with no Cubby UI token, straight from Tailwind's own default
+      // scales. None of these may produce a rule — see REPORT-theme-reset.md.
+      '<div class="p-9 text-lg shadow-md bg-red-500 blur-sm tracking-wide perspective-dramatic"></div>',
+      // rounded-xl keeps compiling — it is not a bypass, it is Cubby's own --radius-xl (16px)
+      // reusing the same key name Tailwind's default scale happens to use.
+      '<div class="rounded-xl"></div>',
+    ].join("\n"),
   );
 
   const cli = join(packageRoot, "node_modules", ".bin", "tailwindcss");
@@ -179,4 +191,46 @@ test("Tailwind v4 compiles theme.css and produces utilities from our tokens", ()
   assert.match(css, /@media \(width >= 600px\)/);
   // The literal declarations must stay unlayered so they win over Tailwind's @layer theme.
   assert.ok(css.includes("\n:root {\n  --space-0: 0px;"));
+
+  // None of Tailwind's own default-scale utilities may produce a rule once the reset runs.
+  for (const bypass of ["p-9", "text-lg", "shadow-md", "bg-red-500", "blur-sm", "tracking-wide", "perspective-dramatic"]) {
+    assert.doesNotMatch(
+      css,
+      new RegExp(`\\.${bypass.replaceAll(/[.*+?^${}()|[\]\\-]/g, "\\$&")}\\s*\\{`),
+      `${bypass} should not compile — it has no Cubby UI token`,
+    );
+  }
+  // rounded-xl still compiles, through Cubby's own token, not Tailwind's literal default.
+  assert.match(css, /\.rounded-xl\s*\{\s*border-radius: var\(--radius-xl\);/);
+});
+
+test("the reset sits before @theme inline, and only clears namespaces checked safe", () => {
+  const resetStart = themeCss.indexOf("@theme {");
+  const inlineBlock = /^@theme inline \{/m.exec(themeCss);
+  assert.ok(inlineBlock, "could not find the @theme inline rule in theme.css");
+  assert.ok(resetStart !== -1 && resetStart < inlineBlock.index, "reset must precede @theme inline");
+
+  const resetBlock = themeCss.slice(resetStart, inlineBlock.index);
+  for (const namespace of [
+    "--color-*",
+    "--radius-*",
+    "--shadow-*",
+    "--text-*",
+    "--font-*",
+    "--spacing",
+    "--ease-*",
+    "--blur-*",
+    "--tracking-*",
+    "--leading-*",
+    "--perspective-*",
+  ]) {
+    assert.match(resetBlock, new RegExp(`^\\s{2}${namespace.replace("*", "\\*")}: initial;$`, "m"));
+  }
+  // Left alone on purpose (see the comment above the block in theme.css for why each one):
+  // --breakpoint-* and --container-* are needed/low-risk, --animate-* would break
+  // Spinner's `animate-spin`, and duration-<n>/opacity-<n>/z-<n> have no theme namespace to
+  // reset in the first place.
+  for (const keep of ["--breakpoint-*", "--container-*", "--animate-*"]) {
+    assert.doesNotMatch(resetBlock, new RegExp(`${keep.replace("*", "\\*")}: initial`));
+  }
 });
