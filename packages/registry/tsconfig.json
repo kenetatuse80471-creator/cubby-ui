@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "rewriteRelativeImportExtensions": false,
+    "jsx": "react-jsx",
+    "types": [
+      "vitest/globals"
+    ],
+    "paths": {
+      "@/registry/cubby/*": [
+        "./src/*"
+      ],
+      "@/lib/*": [
+        "./src/lib/*"
+      ]
+    }
+  },
+  "include": [
+    "src",
+    "test",
+    "vitest.config.ts"
+  ]
+}
