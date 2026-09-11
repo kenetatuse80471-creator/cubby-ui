@@ -8,6 +8,7 @@
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint:tokens": "node scripts/lint-tokens.ts",
     "registry:build": "pnpm -w run registry:build",
     "registry:validate": "pnpm -w run registry:validate"
   },
@@ -24,10 +25,12 @@
     "tailwind-merge": "3.6.0"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "4.3.3",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "tailwindcss": "4.3.3",
     "typescript": "6.0.3",
     "vitest": "5.0.0"
   }
