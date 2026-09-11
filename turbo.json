@@ -26,6 +26,12 @@
       ],
       "cache": false
     },
+    "lint:tokens": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": []
+    },
     "typecheck": {
       "dependsOn": [
         "^build"

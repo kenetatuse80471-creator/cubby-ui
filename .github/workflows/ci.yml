@@ -32,6 +32,11 @@ jobs:
       - name: Registry
         run: pnpm registry:validate
 
+      # Gate on literal colours/sizes/radii in packages/registry/src/{ui,lib} — see
+      # packages/registry/scripts/lint-tokens.ts.
+      - name: Lint tokens
+        run: pnpm lint:tokens
+
       - name: Typecheck
         run: pnpm typecheck
 
