@@ -102,6 +102,18 @@ export interface TooltipPopupProps extends ComponentProps<typeof TooltipPrimitiv
  * anywhere else for `Tooltip` — so both reuse the only existing pairing of
  * `shadow/raised` already in this codebase, `switch.tsx`'s knob
  * (`bg-bg-surface shadow-raised`); flagged in the report.
+ *
+ * No open/close transition, on purpose and after a fix: a first pass gave it
+ * `context-action-menu.tsx`'s exact fade (`data-starting-style:opacity-0`
+ * `data-ending-style:opacity-0`) — plausible, since that fade already ships —
+ * but three tooltips forced open at once (this item's own demo, one per
+ * `side`) showed two of the three stuck at `opacity: 0` forever, confirmed
+ * with Playwright (`getComputedStyle`): the starting-style-to-open flip needs
+ * a clean two-frame handoff, and mounting several at once in one commit does
+ * not reliably give every one of them that handoff. `select.tsx`'s own popup
+ * has no transition at all — the same precedent this now follows — and a
+ * hover hint appearing instantly is arguably more correct for a tooltip than
+ * for a menu besides.
  */
 export function TooltipPopup({
   className,
@@ -129,9 +141,6 @@ export function TooltipPopup({
           className={cn(
             "w-fit max-w-comp-popover-grid rounded-6 p-2",
             "bg-bg-surface text-caption-sm text-text-1 shadow-raised",
-            "transition-opacity duration-(--motion-fast) ease-standard",
-            "data-starting-style:opacity-0 data-ending-style:opacity-0",
-            "motion-reduce:transition-none",
             className,
           )}
           {...props}

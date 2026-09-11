@@ -26,15 +26,21 @@ export type TabsListProps = ComponentProps<typeof TabsPrimitive.List>;
 /**
  * The tab row. 04 M-05: gap between tabs `space/4` (4) — the row itself is
  * "not a component variant, an auto-layout container", so no fill or border
- * of its own. `overflow-x-auto` is this primitive's own addition, not from
- * the spec: a board row can hold more boards than fit, and scrolling beats
- * wrapping or shrinking tabs to illegible widths.
+ * of its own.
+ *
+ * A first pass here added `overflow-x-auto`, reasoning a board row can hold
+ * more boards than fit; reverted after the screenshot showed why not — an
+ * `overflow` other than `visible` on one axis forces the CSS-spec-mandated
+ * `auto` onto the other axis too (there is no way to keep it x-only), which
+ * clipped every focused tab's outline top and bottom. 04 §3.7 says overflow
+ * on a narrow screen is unmeasured for the whole design system, not just
+ * `Tabs` — left for a consumer to solve deliberately instead of guessed here.
  */
 export function TabsList({ className, ...props }: TabsListProps) {
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
-      className={cn("flex items-center gap-1 overflow-x-auto", className)}
+      className={cn("flex items-center gap-1", className)}
       {...props}
     />
   );

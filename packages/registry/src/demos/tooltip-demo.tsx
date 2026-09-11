@@ -28,7 +28,10 @@ function OpenTooltip({
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
 
   return (
-    <div className="relative flex flex-col items-center gap-8">
+    // `pt-7`: headroom for the `side="top"` cell's popup, which would
+    // otherwise overlap the row label above it — kept on every cell so the
+    // three stay aligned.
+    <div className="relative flex flex-col items-center gap-8 pt-7">
       <Tooltip defaultOpen>
         <TooltipTrigger
           render={<IconButton aria-label="Настройки" icon={<Icon icon={Settings01Icon} />} />}
