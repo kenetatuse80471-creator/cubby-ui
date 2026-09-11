@@ -1,0 +1,118 @@
+@import "tailwindcss";
+/* Unlayered on purpose: Tailwind emits its own theme inside @layer theme and an
+   unlayered :root wins, which is what keeps the token literals in charge. */
+@import "@cubby-ui/tokens/tokens.css";
+@import "@cubby-ui/tokens/theme.css";
+/* Shell-only scale, after the tokens so it can reference them. Never the reverse. */
+@import "./site-theme.css";
+
+/* The components live outside this app, so Tailwind has to be told where to look. */
+@source "../../../packages/registry/src";
+@source "../app";
+@source "../components";
+@source "../site";
+
+/* ---------------------------------------------------------------------------
+ * Inter, self-hosted.
+ *
+ * `@fontsource-variable/inter` registers the family as "Inter Variable", while the
+ * token says `--font: "Inter"`. Importing the package's own stylesheet would leave
+ * `var(--font)` pointing at a family that does not exist, so the faces are declared
+ * here under the name the token uses, loading the package's own woff2 files — the
+ * font is still self-hosted and nothing is fetched at build time.
+ *
+ * Four subsets (latin, latin-ext, cyrillic, cyrillic-ext), upright only; the
+ * unicode ranges are copied from `node_modules/@fontsource-variable/inter/index.css`
+ * (5.3.0). Italic is not loaded: nothing in the shell is set in italics.
+ * ------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2")
+    format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../node_modules/@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2")
+    format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
+    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../node_modules/@fontsource-variable/inter/files/inter-cyrillic-wght-normal.woff2")
+    format("woff2-variations");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../node_modules/@fontsource-variable/inter/files/inter-cyrillic-ext-wght-normal.woff2")
+    format("woff2-variations");
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  [data-theme="light"] {
+    color-scheme: light;
+  }
+
+  body {
+    /* `--font` is the family name only — the token set has no fallback stack
+       (a known finding), so the stack is spelled out here, in the app. */
+    font-family: var(--font), ui-sans-serif, system-ui, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg-app);
+    color: var(--text-1);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--site-font-mono);
+  }
+
+  /* The references drop the hero from 64 to 40 below the small breakpoint
+     (reference spec §1.1); `--breakpoint-sm` is 600px in the tokens. */
+  @media (width < 600px) {
+    :root {
+      --site-text-hero: var(--site-text-hero-mobile);
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Shiki, dual theme. The highlighter is asked for both themes at once and writes
+ * the dark colours inline (dark is the canon) plus a `--shiki-light` custom
+ * property per token; the rule below swaps to it under the light theme.
+ * ------------------------------------------------------------------------- */
+
+[data-theme="light"] .shiki,
+[data-theme="light"] .shiki span {
+  color: var(--shiki-light) !important;
+  font-style: var(--shiki-light-font-style) !important;
+  font-weight: var(--shiki-light-font-weight) !important;
+  text-decoration: var(--shiki-light-text-decoration) !important;
+}

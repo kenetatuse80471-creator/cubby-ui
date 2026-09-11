@@ -1,0 +1,161 @@
+/* ============================================================================
+ * Scale of the SITE SHELL — not part of the library.
+ *
+ * Every number here is MEASURED, not invented: it comes from the reference spec
+ * (beui / bencho / reactbits / heroui, measured 12.09.2026 — §6.1 "анатомия
+ * страницы компонента" and §6.3 "где наши токены не дотягивают"). Do not replace a
+ * value with a guess; replace it with another measurement.
+ *
+ * Why a second scale exists at all (§6.3): the library's type scale tops out at
+ * `--text-display-lg` = 24px, its radii at 16px, its strokes are opaque and it has
+ * no duration or tracking tokens. Those are correct for a dense task tracker and
+ * stretching them to fit a marketing page would break the components' alignment
+ * with each other. So the shell gets its own layer, and the components inside a
+ * preview keep using the real tokens — which is what makes a component page an
+ * honest demonstration rather than a mock-up.
+ *
+ * Rules for this file:
+ *
+ * - one number, one place: the `:root` block is the only place a literal appears;
+ * - every property is `--site-*`, so it can never be mistaken for a token;
+ * - the `@theme inline` block only maps those properties into Tailwind namespaces,
+ *   mirroring how `packages/tokens/dist/{tokens,theme}.css` is split;
+ * - colour, radius, shadow and duration appear here ONLY because §6.3 found the
+ *   library has no equivalent step. Anything the library does have — `--bg-*`,
+ *   `--text-*` below 24px, `--radius-*` up to 16px, `--film-*` — is used from the
+ *   tokens directly and is not restated here.
+ * ========================================================================== */
+
+:root {
+  /* --- Marketing type. Sizes the library deliberately does not have (§6.3). --- */
+  --site-text-hero: 64px;
+  /* 1440 → 64; at 375 the references drop to 40 (§1.1). Applied in globals.css. */
+  --site-text-hero-mobile: 40px;
+  --site-text-hero-sub: 18px;
+  --site-text-h2: 36px;
+  --site-text-eyebrow: 11px;
+
+  --site-tracking-hero: -0.025em;
+  --site-tracking-h2: -0.025em;
+  --site-tracking-eyebrow: 0.22em;
+  --site-leading-hero: 0.95;
+  --site-leading-body: 1.6;
+
+  /* Code: 13px on a 20px line, no line numbers (§6.1). */
+  --site-text-code: 13px;
+  --site-leading-code: 20px;
+
+  /* --- Layout of the shell (§6.1: three columns, 240 / 816 / 256). --- */
+  --site-container: 1280px;
+  --site-content: 816px;
+  --site-sidebar: 240px;
+  --site-toc: 256px;
+  --site-gutter: 32px;
+  --site-header-h: 56px;
+
+  /* Vertical rhythm. The shorthands are composed, so each number is written once. */
+  --site-hero-top: 112px;
+  --site-hero-bottom: 80px;
+  --site-section-top: 56px;
+  --site-section-bottom: 64px;
+  --site-hero-y: var(--site-hero-top) 0 var(--site-hero-bottom);
+  --site-section-y: var(--site-section-top) 0 var(--site-section-bottom);
+
+  /* --- Radii of the shell. The library stops at 16 (§6.3). --- */
+  --site-radius-card: 24px;
+  --site-radius-well: 20px;
+  --site-radius-block: 12px;
+
+  /* --- Strokes and elevation of the shell. ---
+   * `--border` in the tokens is opaque (#2F3033): it reads correctly on `--bg-app`
+   * and almost disappears on `--bg-raised`. All four references use alpha-white
+   * instead, which is a conceptual difference, not a shade (§6.3). Moving the
+   * library's own `--border` to alpha is a separate question for the owner —
+   * it would change every screen of the product.
+   */
+  --site-border: rgba(255, 255, 255, 0.05);
+  --site-border-strong: rgba(255, 255, 255, 0.1);
+  /* Without the `inset` keyword as well, because Tailwind's `inset-shadow-*`
+     utility adds the keyword itself and must not receive it twice. */
+  --site-highlight-offset: 0 1px 0 rgba(255, 255, 255, 0.06);
+  --site-highlight: inset var(--site-highlight-offset);
+  --site-shadow-float: 0 14px 40px rgba(0, 0, 0, 0.14);
+
+  /* --- Motion. The tokens have durations for the product, none for a page. --- */
+  --site-dur-press: 0.12s;
+  --site-dur-base: 0.2s;
+  --site-dur-panel: 0.3s;
+  --site-ease: cubic-bezier(0.23, 1, 0.32, 1);
+
+  /*
+   * Monospace for code. A SITE-LEVEL DECISION, recorded in the report: the tokens
+   * name a mono text style (`--text-mono-sm`) but no mono family (§6.3), and a
+   * downloaded mono face would cost bytes on every page for the sake of code
+   * samples. The system stack costs nothing and is legible everywhere; §6.3's
+   * shortlist (Geist Mono, IBM Plex Mono) is a later call, once there is a brand.
+   */
+  --site-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/*
+ * The spec measured the dark theme only — light was out of scope. The two alpha
+ * strokes and the inset highlight are white-on-dark by construction, so the light
+ * theme inverts them rather than inheriting something invisible. These four values
+ * are the one place in this file that is NOT measured; they are a straight
+ * inversion, to be replaced when the light theme is specified.
+ */
+[data-theme="light"] {
+  --site-border: rgba(0, 0, 0, 0.07);
+  --site-border-strong: rgba(0, 0, 0, 0.12);
+  --site-highlight-offset: 0 1px 0 rgba(255, 255, 255, 0.7);
+  --site-shadow-float: 0 14px 40px rgba(0, 0, 0, 0.08);
+}
+
+@theme inline {
+  /* Type. */
+  --text-site-hero: var(--site-text-hero);
+  --text-site-hero--line-height: var(--site-leading-hero);
+  --text-site-hero--letter-spacing: var(--site-tracking-hero);
+
+  --text-site-hero-sub: var(--site-text-hero-sub);
+  --text-site-hero-sub--line-height: var(--site-leading-body);
+
+  --text-site-h2: var(--site-text-h2);
+  --text-site-h2--line-height: var(--site-leading-hero);
+  --text-site-h2--letter-spacing: var(--site-tracking-h2);
+
+  --text-site-eyebrow: var(--site-text-eyebrow);
+  --text-site-eyebrow--letter-spacing: var(--site-tracking-eyebrow);
+
+  --text-site-code: var(--site-text-code);
+  --text-site-code--line-height: var(--site-leading-code);
+
+  --font-site-mono: var(--site-font-mono);
+
+  /* Layout. */
+  --container-site: var(--site-container);
+  --container-site-content: var(--site-content);
+
+  --spacing-site-sidebar: var(--site-sidebar);
+  --spacing-site-toc: var(--site-toc);
+  --spacing-site-gutter: var(--site-gutter);
+  --spacing-site-header: var(--site-header-h);
+  --spacing-site-hero-top: var(--site-hero-top);
+  --spacing-site-hero-bottom: var(--site-hero-bottom);
+  --spacing-site-section-top: var(--site-section-top);
+  --spacing-site-section-bottom: var(--site-section-bottom);
+
+  /* Radii, strokes, elevation. */
+  --radius-site-card: var(--site-radius-card);
+  --radius-site-well: var(--site-radius-well);
+  --radius-site-block: var(--site-radius-block);
+
+  --color-site-border: var(--site-border);
+  --color-site-border-strong: var(--site-border-strong);
+
+  --shadow-site-float: var(--site-shadow-float);
+  --inset-shadow-site-highlight: var(--site-highlight-offset);
+
+  /* Motion. Durations have no Tailwind namespace — use `duration-(--site-dur-base)`. */
+  --ease-site: var(--site-ease);
+}

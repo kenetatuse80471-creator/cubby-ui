@@ -1,0 +1,10 @@
+# Registry payloads for this app, rebuilt by `pnpm --filter www registry:build`
+# (the root `public/r/` entry of the repository .gitignore already covers the
+# pattern; spelled out here so the path is obvious from inside the app).
+public/r/
+
+# Written by Next on the first dev/build run.
+next-env.d.ts
+
+# Headless-Chrome screenshots of the current state — review material, not artefacts.
+.screenshots/

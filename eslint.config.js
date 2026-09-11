@@ -14,6 +14,8 @@ export default tseslint.config(
       "**/.turbo/**",
       "**/.next/**",
       "public/r/**",
+      "apps/www/.screenshots/**",
+      "apps/www/next-env.d.ts",
       "apps/*/shots/**",
       "packages/tokens/src/tokens.json",
     ],
@@ -44,7 +46,11 @@ export default tseslint.config(
   // Components and demos: the two rule sets that catch what a designer notices —
   // broken hooks and an icon without an accessible name.
   {
-    files: ["packages/registry/src/**/*.tsx", "apps/playground/src/**/*.tsx"],
+    files: [
+      "packages/registry/src/**/*.tsx",
+      "apps/playground/src/**/*.tsx",
+      "apps/www/**/*.tsx",
+    ],
     plugins: { "react-hooks": reactHooks, "jsx-a11y": jsxA11y },
     rules: {
       ...reactHooks.configs["recommended-latest"].rules,
@@ -61,7 +67,7 @@ export default tseslint.config(
 
   // Node scripts.
   {
-    files: ["**/scripts/**/*.ts", "**/*.config.{js,ts}"],
+    files: ["**/scripts/**/*.ts", "**/*.config.{js,cjs,mjs,ts}"],
     languageOptions: { globals: { ...globals.node } },
   },
 );
