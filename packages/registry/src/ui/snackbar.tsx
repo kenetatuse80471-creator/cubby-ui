@@ -47,17 +47,6 @@ const snackbarBarVariants = cva(
 
 export type SnackbarKind = "undo" | "quiet" | "error";
 
-/**
- * The plate is light in both themes, so the films (built for dark surfaces)
- * are invisible on it: hover and press move the surface towards its own ink,
- * exactly like the Primary button in 03 §8.
- */
-const onPlateControl = [
-  "text-inherit",
-  "hover:bg-[color-mix(in_srgb,var(--plate)_92%,var(--text-on-plate))]",
-  "active:bg-[color-mix(in_srgb,var(--plate)_88%,var(--text-on-plate))]",
-];
-
 /** What `useSnackbar().notify()` accepts. An error must be dismissible. */
 export type SnackbarNotice =
   | {
@@ -126,8 +115,13 @@ export function Snackbar({
   const resolvedActionLabel = actionLabel ?? toast?.data?.actionLabel;
   const resolvedCloseLabel = closeLabel ?? toast?.data?.closeLabel;
 
-  const messageClassName = "min-w-0 flex-1";
-  const actionClassName = cn("shrink-0", onPlateControl);
+  const actionClassName = cn(
+    "shrink-0 text-inherit",
+    // cubby-ui-lint-ignore — 03 §8 hover formula (8% towards the plate ink); no token exports this percentage, see 05-gates-report.md
+    "hover:bg-[color-mix(in_srgb,var(--plate)_92%,var(--text-on-plate))]",
+    // cubby-ui-lint-ignore — 03 §8 pressed-state formula (12% towards the plate ink), same as Button; no token exports this percentage, see 05-gates-report.md
+    "active:bg-[color-mix(in_srgb,var(--plate)_88%,var(--text-on-plate))]",
+  );
   const closeIcon = <Icon icon={Cancel01Icon} />;
 
   const bar = (
@@ -147,12 +141,12 @@ export function Snackbar({
       ) : null}
       {live ? (
         <Toast.Title
-          render={<span data-slot="snackbar-message" className={messageClassName} />}
+          render={<span data-slot="snackbar-message" className="min-w-0 flex-1" />}
         >
           {resolvedMessage}
         </Toast.Title>
       ) : (
-        <span data-slot="snackbar-message" className={messageClassName}>
+        <span data-slot="snackbar-message" className="min-w-0 flex-1">
           {resolvedMessage}
         </span>
       )}

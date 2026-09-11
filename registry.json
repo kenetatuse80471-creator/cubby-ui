@@ -325,7 +325,7 @@
       ],
       "docs": "Wrap the app in `SnackbarProvider` and call `useSnackbar().notify({ kind, message, actionLabel, onAction, closeLabel })`. A new snackbar displaces the one on screen — the queue never piles up — and every timer pauses while the viewport is hovered or holds focus. `Snackbar` without a toast object renders the same bar statically. Needs the Cubby UI tokens: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — then import cubby-tokens.css and cubby-theme.css after @import \"tailwindcss\".",
       "meta": {
-        "version": "0.1.0"
+        "version": "0.1.1"
       }
     },
     {
