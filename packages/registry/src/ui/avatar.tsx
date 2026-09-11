@@ -27,7 +27,12 @@ const avatarVariants = cva(
         unavailable: "bg-film-2 border-danger text-danger",
       },
       empty: {
-        true: "border-dashed border-border-control bg-transparent text-text-3",
+        // `bg-none` next to `bg-transparent`: the identity variant paints with a
+        // gradient, which is `background-image`, while `bg-transparent` only clears
+        // `background-color`. Without this the bare `<Avatar />` — the documented way
+        // to say "nobody is assigned" — still shows a washed accent circle behind the
+        // dashed ring.
+        true: "border-dashed border-border-control bg-transparent bg-none text-text-3",
         false: "",
       },
     },

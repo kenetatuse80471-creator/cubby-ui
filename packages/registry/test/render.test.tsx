@@ -156,6 +156,9 @@ describe("shape", () => {
     const html = renderToStaticMarkup(<Avatar />);
     expect(html).toContain('data-empty=""');
     expect(html).toContain('data-slot="avatar-placeholder"');
+    // The identity gradient is a background-image, so clearing background-color is
+    // not enough: without bg-none the "nobody is assigned" avatar keeps the accent.
+    expect(html).toContain("bg-none");
   });
 
   it("divider is decorative by default", () => {
