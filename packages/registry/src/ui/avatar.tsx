@@ -35,20 +35,31 @@ const avatarVariants = cva(
   },
 );
 
-const avatarTones = {
-  gray: "bg-film-2 text-stage-gray-text",
-  blue: "bg-film-2 text-stage-blue-text",
-  teal: "bg-film-2 text-stage-teal-text",
-  green: "bg-film-2 text-stage-green-text",
-  yellow: "bg-film-2 text-stage-yellow-text",
-  orange: "bg-film-2 text-stage-orange-text",
-  red: "bg-film-2 text-stage-red-text",
-  purple: "bg-film-2 text-stage-purple-text",
-} as const;
+/**
+ * Stage tone layered on top of `variant="neutral"` — the colour lives in the text, never in a
+ * second opaque plate (03 §3.6, the same rule Tag follows). A `cva` of its own, not a plain
+ * lookup object: a plain object's strings sit outside `cva`/`cn`/`className`, which is exactly
+ * what `lint:tokens`'s `class-list-out-of-place` rule exists to catch — and what the
+ * "every class compiles" test in `classes.test.ts` would then have no way to see.
+ */
+const avatarToneVariants = cva("", {
+  variants: {
+    tone: {
+      gray: "bg-film-2 text-stage-gray-text",
+      blue: "bg-film-2 text-stage-blue-text",
+      teal: "bg-film-2 text-stage-teal-text",
+      green: "bg-film-2 text-stage-green-text",
+      yellow: "bg-film-2 text-stage-yellow-text",
+      orange: "bg-film-2 text-stage-orange-text",
+      red: "bg-film-2 text-stage-red-text",
+      purple: "bg-film-2 text-stage-purple-text",
+    },
+  },
+});
 
 export type AvatarSize = NonNullable<VariantProps<typeof avatarVariants>["size"]>;
 export type AvatarVariant = NonNullable<VariantProps<typeof avatarVariants>["variant"]>;
-export type AvatarTone = keyof typeof avatarTones;
+export type AvatarTone = NonNullable<VariantProps<typeof avatarToneVariants>["tone"]>;
 
 export interface AvatarProps
   extends Omit<ComponentProps<"span">, "children">,
@@ -88,7 +99,7 @@ export function Avatar({
       aria-hidden={name ? undefined : true}
       className={cn(
         avatarVariants({ size, variant: tone ? "neutral" : variant, empty }),
-        tone && !empty ? avatarTones[tone] : undefined,
+        tone && !empty ? avatarToneVariants({ tone }) : undefined,
         className,
       )}
       {...props}
