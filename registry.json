@@ -431,7 +431,7 @@
       ],
       "docs": "Requires the Cubby UI tokens: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — then import cubby-tokens.css and cubby-theme.css after @import \"tailwindcss\".",
       "meta": {
-        "version": "0.1.0"
+        "version": "0.1.1"
       }
     }
   ]

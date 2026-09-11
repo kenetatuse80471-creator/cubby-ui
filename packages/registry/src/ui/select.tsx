@@ -146,7 +146,7 @@ export function SelectContent({
         sideOffset={sideOffset}
         align={align}
         collisionAvoidance={collisionAvoidance}
-        className="z-50 min-w-(--anchor-width)"
+        className="z-(--z-dropdown) min-w-(--anchor-width)"
       >
         <SelectPrimitive.Popup
           data-slot="select-popup"
