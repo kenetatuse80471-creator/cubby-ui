@@ -19,20 +19,26 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
-    "lint": "turbo run lint",
+    "lint": "eslint .",
     "tokens:build": "pnpm --filter @cubby-ui/tokens run tokens:build",
     "tokens:check": "pnpm --filter @cubby-ui/tokens run tokens:build && git diff --exit-code -- packages/tokens/dist",
     "registry:build": "shadcn build registry.json --output public/r",
     "registry:validate": "shadcn registry validate registry.json",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "ci": "pnpm tokens:check && pnpm registry:validate && pnpm typecheck && pnpm test"
+    "ci": "pnpm tokens:check && pnpm registry:validate && pnpm lint && pnpm typecheck && pnpm test"
   },
   "devDependencies": {
     "@changesets/cli": "3.0.2",
+    "@eslint/js": "9.39.5",
     "@types/node": "22.20.2",
+    "eslint": "9.39.5",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.12.0",
     "shadcn": "4.21.0",
     "turbo": "2.10.12",
-    "typescript": "7.0.2"
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.70.0"
   }
 }

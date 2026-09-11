@@ -27,3 +27,6 @@ public/r/
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+# vite build output of the playground (the app itself is not a published artefact)
+apps/playground/dist/

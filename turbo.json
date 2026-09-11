@@ -3,26 +3,39 @@
   "ui": "stream",
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**"
+      ]
     },
     "tokens:build": {
-      "inputs": ["src/**"],
-      "outputs": ["dist/**"]
+      "inputs": [
+        "src/**"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
     },
     "tokens:check": {
-      "dependsOn": ["tokens:build"],
+      "dependsOn": [
+        "tokens:build"
+      ],
       "cache": false
     },
     "typecheck": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "outputs": []
     },
     "test": {
-      "dependsOn": ["^build"],
-      "outputs": []
-    },
-    "lint": {
+      "dependsOn": [
+        "^build"
+      ],
       "outputs": []
     }
   }
