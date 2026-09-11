@@ -72,6 +72,18 @@
 @layer base {
   :root {
     color-scheme: dark;
+    /*
+     * The header is fixed and 56px tall, so an in-page anchor would otherwise land
+     * with its heading hidden behind it. `scroll-padding-top` is the one line that
+     * fixes every «On this page» link at once.
+     */
+    scroll-padding-top: var(--site-sticky-top);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :root {
+      scroll-behavior: smooth;
+    }
   }
 
   [data-theme="light"] {
@@ -104,15 +116,11 @@
 }
 
 /* ---------------------------------------------------------------------------
- * Shiki, dual theme. The highlighter is asked for both themes at once and writes
- * the dark colours inline (dark is the canon) plus a `--shiki-light` custom
- * property per token; the rule below swaps to it under the light theme.
+ * Shiki needs no rule here any more.
+ *
+ * It used to: two themes were tokenised at once and a `!important` block swapped
+ * every span to a `--shiki-light` custom property under the light theme. The
+ * highlighter now emits ONE theme whose colours are `var(--text-body)`,
+ * `var(--accent-2)` and so on (see `site/highlight.ts`), and those follow
+ * `data-theme` by themselves — so the swap, and the `!important` it needed, are gone.
  * ------------------------------------------------------------------------- */
-
-[data-theme="light"] .shiki,
-[data-theme="light"] .shiki span {
-  color: var(--shiki-light) !important;
-  font-style: var(--shiki-light-font-style) !important;
-  font-weight: var(--shiki-light-font-weight) !important;
-  text-decoration: var(--shiki-light-text-decoration) !important;
-}
