@@ -19,6 +19,7 @@ const iconButtonVariants = cva(
         primary: [
           "bg-plate text-text-on-plate",
           "hover:bg-btn-primary-surface-hover",
+          // cubby-ui-lint-ignore — 03 §8 pressed-state formula (12% towards the plate ink), same as Button; no token exports this percentage, see 05-gates-report.md
           "active:bg-[color-mix(in_srgb,var(--plate)_88%,var(--text-on-plate))]",
         ],
         secondary: "bg-film-1 border-film-border text-text-1 hover:bg-film-2 active:bg-film-3",

@@ -20,14 +20,16 @@ const tagVariants = cva(
     variants: {
       tone: {
         neutral: "[--tag-ink:var(--text-2)] [--tag-line:var(--film-border)]",
-        gray: "[--tag-ink:var(--stage-gray-text)] [--tag-line:color-mix(in_srgb,var(--stage-gray-text)_40%,transparent)]",
-        blue: "[--tag-ink:var(--stage-blue-text)] [--tag-line:color-mix(in_srgb,var(--stage-blue-text)_40%,transparent)]",
-        teal: "[--tag-ink:var(--stage-teal-text)] [--tag-line:color-mix(in_srgb,var(--stage-teal-text)_40%,transparent)]",
-        green: "[--tag-ink:var(--stage-green-text)] [--tag-line:color-mix(in_srgb,var(--stage-green-text)_40%,transparent)]",
-        yellow: "[--tag-ink:var(--stage-yellow-text)] [--tag-line:color-mix(in_srgb,var(--stage-yellow-text)_40%,transparent)]",
-        orange: "[--tag-ink:var(--stage-orange-text)] [--tag-line:color-mix(in_srgb,var(--stage-orange-text)_40%,transparent)]",
-        red: "[--tag-ink:var(--stage-red-text)] [--tag-line:color-mix(in_srgb,var(--stage-red-text)_40%,transparent)]",
-        purple: "[--tag-ink:var(--stage-purple-text)] [--tag-line:color-mix(in_srgb,var(--stage-purple-text)_40%,transparent)]",
+        // Each hairline below is A-09's formula, tone text at 40% alpha; no token exports
+        // the percentage, see 05-gates-report.md. cubby-ui-lint-ignore
+        gray: "[--tag-ink:var(--stage-gray-text)] [--tag-line:color-mix(in_srgb,var(--stage-gray-text)_40%,transparent)]", // cubby-ui-lint-ignore — A-09, 40% alpha hairline
+        blue: "[--tag-ink:var(--stage-blue-text)] [--tag-line:color-mix(in_srgb,var(--stage-blue-text)_40%,transparent)]", // cubby-ui-lint-ignore — A-09, 40% alpha hairline
+        teal: "[--tag-ink:var(--stage-teal-text)] [--tag-line:color-mix(in_srgb,var(--stage-teal-text)_40%,transparent)]", // cubby-ui-lint-ignore — A-09, 40% alpha hairline
+        green: "[--tag-ink:var(--stage-green-text)] [--tag-line:color-mix(in_srgb,var(--stage-green-text)_40%,transparent)]", // cubby-ui-lint-ignore — A-09, 40% alpha hairline
+        yellow: "[--tag-ink:var(--stage-yellow-text)] [--tag-line:color-mix(in_srgb,var(--stage-yellow-text)_40%,transparent)]", // cubby-ui-lint-ignore — A-09, 40% alpha hairline
+        orange: "[--tag-ink:var(--stage-orange-text)] [--tag-line:color-mix(in_srgb,var(--stage-orange-text)_40%,transparent)]", // cubby-ui-lint-ignore — A-09, 40% alpha hairline
+        red: "[--tag-ink:var(--stage-red-text)] [--tag-line:color-mix(in_srgb,var(--stage-red-text)_40%,transparent)]", // cubby-ui-lint-ignore — A-09, 40% alpha hairline
+        purple: "[--tag-ink:var(--stage-purple-text)] [--tag-line:color-mix(in_srgb,var(--stage-purple-text)_40%,transparent)]", // cubby-ui-lint-ignore — A-09, 40% alpha hairline
       },
     },
     defaultVariants: { tone: "neutral" },

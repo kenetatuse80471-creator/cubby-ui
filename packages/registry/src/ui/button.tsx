@@ -20,7 +20,7 @@ const buttonVariants = cva(
         primary: [
           "bg-plate text-text-on-plate",
           "hover:bg-btn-primary-surface-hover",
-          // Pressed on a light plate: 12% towards the plate ink (03 §8).
+          // cubby-ui-lint-ignore — 03 §8 pressed-state formula (12% towards the plate ink); no token exports this percentage, see 05-gates-report.md
           "active:bg-[color-mix(in_srgb,var(--plate)_88%,var(--text-on-plate))]",
         ],
         secondary: "bg-film-1 border-film-border text-text-1 hover:bg-film-2 active:bg-film-3",
