@@ -18,9 +18,11 @@ import SnackbarDefault from "@/components/examples/snackbar/default";
 import SpinnerDefault from "@/components/examples/spinner/default";
 import SwitchDefault from "@/components/examples/switch/default";
 import SwitchGroup from "@/components/examples/switch/group";
+import TabsDefault from "@/components/examples/tabs/default";
 import TagDefault from "@/components/examples/tag/default";
 import TextAreaDefault from "@/components/examples/text-area/default";
 import TextInputDefault from "@/components/examples/text-input/default";
+import TooltipDefault from "@/components/examples/tooltip/default";
 
 /**
  * Examples of the site: one short, real use per component, not a grid of states.
@@ -72,6 +74,7 @@ export const EXAMPLES: Record<PreviewSlug, ExampleList> = {
     example("switch", "default", "Default", SwitchDefault),
     example("switch", "group", "Several in a block", SwitchGroup),
   ],
+  tabs: [example("tabs", "default", "Default", TabsDefault)],
   "text-input": [example("text-input", "default", "Default", TextInputDefault)],
   "text-area": [example("text-area", "default", "Default", TextAreaDefault)],
   select: [example("select", "default", "Default", SelectDefault)],
@@ -83,6 +86,7 @@ export const EXAMPLES: Record<PreviewSlug, ExampleList> = {
   "context-action-menu": [
     example("context-action-menu", "default", "Default", ContextActionMenuDefault),
   ],
+  tooltip: [example("tooltip", "default", "Default", TooltipDefault)],
 };
 
 export function examplesFor(slug: string): ExampleList | undefined {

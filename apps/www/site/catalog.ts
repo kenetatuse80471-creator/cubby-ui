@@ -56,6 +56,7 @@ const PREVIEW_SLUGS = [
   "button",
   "icon-button",
   "switch",
+  "tabs",
   "text-input",
   "text-area",
   "select",
@@ -65,6 +66,7 @@ const PREVIEW_SLUGS = [
   "modal",
   "snackbar",
   "context-action-menu",
+  "tooltip",
 ] as const;
 
 export type AssetSlug = (typeof ASSET_SLUGS)[number];
@@ -97,6 +99,9 @@ const PLACEMENT: Record<CatalogSlug, CatalogPlacement> = {
   button: { group: "controls", order: 10, badge: "new", launchedAt: LAUNCHED },
   "icon-button": { group: "controls", order: 20, badge: "new", launchedAt: LAUNCHED },
   switch: { group: "controls", order: 30, badge: "new", launchedAt: LAUNCHED },
+  // Tabs switch a view rather than set a value, but a single-item "Navigation" group
+  // would read as a mistake next to four full ones — revisit when a second one lands.
+  tabs: { group: "controls", order: 40, badge: "new", launchedAt: LAUNCHED },
 
   // Fields
   "text-input": { group: "fields", order: 10, badge: "new", launchedAt: LAUNCHED },
@@ -112,6 +117,7 @@ const PLACEMENT: Record<CatalogSlug, CatalogPlacement> = {
   modal: { group: "surfaces", order: 20, badge: "new", launchedAt: LAUNCHED },
   snackbar: { group: "surfaces", order: 30, badge: "new", launchedAt: LAUNCHED },
   "context-action-menu": { group: "surfaces", order: 40, badge: "new", launchedAt: LAUNCHED },
+  tooltip: { group: "surfaces", order: 50, badge: "new", launchedAt: LAUNCHED },
 };
 
 export interface CatalogEntry extends CatalogPlacement {
