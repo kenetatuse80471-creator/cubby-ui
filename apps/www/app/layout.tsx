@@ -29,7 +29,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ThemeProvider>
           <div className="flex min-h-screen flex-col">
             <SiteHeader />
-            <main className="flex-1">{children}</main>
+            {/*
+              The header is `fixed`, so the page scrolls *under* it — that is the
+              whole point of the transparent-until-scrolled treatment (reference
+              spec §1.5). The padding here is what keeps the first screen of every
+              page out from behind it.
+            */}
+            <main className="flex-1 pt-site-header">{children}</main>
             <SiteFooter />
           </div>
         </ThemeProvider>
