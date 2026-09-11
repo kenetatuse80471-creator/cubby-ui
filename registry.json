@@ -29,6 +29,246 @@
         "source": "packages/tokens/src/tokens.json",
         "generator": "packages/tokens/src/build.ts"
       }
+    },
+    {
+      "name": "cn",
+      "type": "registry:lib",
+      "title": "cn",
+      "description": "Слияние классов Tailwind с поправкой на текстовые стили Cubby UI: без неё tailwind-merge принимает text-ui-md за цвет и молча выбрасывает кегль, когда рядом стоит text-text-1.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.6.0"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/registry/src/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@lib/cn.ts"
+        }
+      ],
+      "docs": "Отдельный файл lib/cn.ts, а не правка lib/utils.ts: стандартный cn из shadcn init остаётся на месте, компоненты Cubby UI импортируют @/lib/cn.",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "icon",
+      "type": "registry:ui",
+      "title": "Icon",
+      "description": "Иконка Hugeicons Stroke Rounded в четырёх канонических размерах: 12 — галочка чекбокса, 16 — контент, 20 — навигация, 32 — иллюстрация пустого состояния. Всегда currentColor и aria-hidden.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "@hugeicons/react@^1.1.10",
+        "@hugeicons/core-free-icons@^4.3.2"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/icon.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Требует токены Cubby UI: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — и импорт cubby-tokens.css и cubby-theme.css после @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Кольцо с разрывом, 20 или 12, оборот 800 мс linear; при prefers-reduced-motion не крутится.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Требует токены Cubby UI: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — и импорт cubby-tokens.css и cubby-theme.css после @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Кнопка: primary | secondary | danger | text, высота 32 или 28, слоты иконок слева и справа, состояние загрузки со спиннером вместо иконки.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn",
+        "kenetatuse80471-creator/cubby-ui/spinner"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Требует токены Cubby UI: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — и импорт cubby-tokens.css и cubby-theme.css после @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "icon-button",
+      "type": "registry:ui",
+      "title": "IconButton",
+      "description": "Квадратная кнопка-иконка 32 или 28 с обязательным aria-label, точкой непрочитанного и выбранным состоянием.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn",
+        "kenetatuse80471-creator/cubby-ui/spinner"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/icon-button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Требует токены Cubby UI: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — и импорт cubby-tokens.css и cubby-theme.css после @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "tag",
+      "type": "registry:ui",
+      "title": "Tag",
+      "description": "Тег высотой 20: одна заливка film/2 на все девять тонов, цвет несут текст и обводка; опциональные точка-маркер и крестик.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "@hugeicons/react@^1.1.10",
+        "@hugeicons/core-free-icons@^4.3.2"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn",
+        "kenetatuse80471-creator/cubby-ui/icon"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/tag.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Требует токены Cubby UI: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — и импорт cubby-tokens.css и cubby-theme.css после @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "divider",
+      "type": "registry:ui",
+      "title": "Divider",
+      "description": "Линия 1px, горизонтальная или вертикальная, тон border или film/border. Отступы задаёт родитель.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/divider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Требует токены Cubby UI: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — и импорт cubby-tokens.css и cubby-theme.css после @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Круг 20 / 24 / 28 / 32 / 64 с фото или монограммой, тон стадии и настоящее пустое состояние «никто не назначен».",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "@hugeicons/react@^1.1.10",
+        "@hugeicons/core-free-icons@^4.3.2"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn",
+        "kenetatuse80471-creator/cubby-ui/icon"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Требует токены Cubby UI: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — и импорт cubby-tokens.css и cubby-theme.css после @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "empty-state",
+      "type": "registry:ui",
+      "title": "EmptyState",
+      "description": "Пустое состояние: иконка 32, заголовок, пояснение и действие. У каждого контейнера свой текст.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn",
+        "kenetatuse80471-creator/cubby-ui/icon"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/empty-state.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Требует токены Cubby UI: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — и импорт cubby-tokens.css и cubby-theme.css после @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Тумблер 30×18 на Base UI: доступность и клавиатура — от примитива, геометрия и цвет — из токенов.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "@base-ui/react@^1.8.0"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Требует токены Cubby UI: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — и импорт cubby-tokens.css и cubby-theme.css после @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
     }
   ]
 }
