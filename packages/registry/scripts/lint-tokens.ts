@@ -4,14 +4,21 @@
  * Every colour, size, radius, duration and opacity in Cubby UI comes from
  * `packages/tokens`. A number typed into a component is not a shortcut, it is a value that
  * will not follow the theme and will not move when the canon moves. This script fails the
- * build on the four shapes that break the rule:
+ * build on the shapes that break the rule:
  *
  *   1. a hex colour anywhere in the code;
  *   2. a number with a CSS unit anywhere in the code (`32px`, `0.2s`, `45%`);
  *   3. an arbitrary utility value that still contains a digit once token references are
  *      removed — `h-[32px]` fails, `[animation-duration:var(--motion-spin-duration)]` and
  *      `border-(length:--stroke-focus)` pass, because those *are* token references;
- *   4. a bare number inside a `style={{ … }}` object.
+ *   4. a bare number inside a `style={{ … }}` object;
+ *   5. Tailwind's own default `z-<n>`/`-z-<n>` scale — `z-50` fails, `z-(--z-dropdown)`
+ *      passes, because the token is the whole point of a stacking order that has to line up
+ *      with the rest of the app (scrim, modal, dropdown, snackbar, tooltip: `packages/tokens`);
+ *   6. Tailwind's own default `opacity-<n>` scale, except `opacity-0` and `opacity-100` — those
+ *      two are "invisible"/"fully visible", a state rather than a design value (an
+ *      `data-starting-style:opacity-0` transition, `hover:opacity-100` meaning "no longer
+ *      dimmed"), everything in between is `--opacity-disabled` or nothing.
  *
  * It also refuses multi-token strings written outside `cva`, `cn` and `className`: those would
  * be classes the "every class compiles" test cannot see.
@@ -39,7 +46,26 @@ const UNIT_NUMBER =
   /(?<![\w-])\d+(?:\.\d+)?(?:px|rem|em|vh|vw|vmin|vmax|pt|pc|cm|mm|in|ch|ex|%|deg|turn|ms|s)(?![\w-])/g;
 const TOKEN_REFERENCE = /var\(\s*--[A-Za-z][\w-]*\s*\)|--[A-Za-z][\w-]*/g;
 const ARBITRARY_GROUP = /\[[^\]]*\]|\([^)]*\)/g;
+const Z_INDEX_SCALE = /^-?z-\d+$/;
+const OPACITY_SCALE = /^opacity-(\d+)$/;
 const IGNORE = /cubby-ui-lint-ignore/;
+
+/**
+ * The utility a class candidate ends in, variant prefixes stripped — `hover:opacity-100` is
+ * `opacity-100`, `focus-visible:outline-(length:--stroke-focus)` is `outline-(length:--stroke-
+ * focus)` (the colon inside `(...)` is not a variant separator, so it does not count).
+ */
+function baseUtility(candidate: string): string {
+  let depth = 0;
+  let lastColon = -1;
+  for (let i = 0; i < candidate.length; i += 1) {
+    const char = candidate[i];
+    if (char === "(" || char === "[") depth += 1;
+    else if (char === ")" || char === "]") depth -= 1;
+    else if (char === ":" && depth === 0) lastColon = i;
+  }
+  return candidate.slice(lastColon + 1);
+}
 
 const lineOf = (source: string, index: number) => source.slice(0, index).split("\n").length;
 
@@ -87,6 +113,17 @@ export function lintSource(source: string, file: string): Finding[] {
         if (/\d/.test(group.replace(TOKEN_REFERENCE, ""))) {
           report(literal.start, "arbitrary-number", candidate);
         }
+      }
+
+      const utility = baseUtility(candidate);
+
+      if (Z_INDEX_SCALE.test(utility)) {
+        report(literal.start, "z-index-literal", candidate);
+      }
+
+      const opacity = OPACITY_SCALE.exec(utility);
+      if (opacity && opacity[1] !== "0" && opacity[1] !== "100") {
+        report(literal.start, "opacity-literal", candidate);
       }
     }
   }

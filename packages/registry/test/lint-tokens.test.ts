@@ -27,6 +27,34 @@ describe("lint:tokens", () => {
     );
   });
 
+  it("forbids Tailwind's own z-index scale, only a token passes", () => {
+    const rules = (source: string) => new Set(lintSource(source, "probe.tsx").map((f) => f.rule));
+    const clean = (source: string) => lintSource(source, "probe.tsx");
+
+    expect(rules('const a = cn("z-50");').has("z-index-literal")).toBe(true);
+    // Tailwind's negative scale, same shape, same problem.
+    expect(rules('const a = cn("-z-10");').has("z-index-literal")).toBe(true);
+    // select.tsx's real bug: the arbitrary-number rule cannot see this one, `z-50` has no
+    // brackets/parens and no unit suffix — it is a plain Tailwind default-scale utility.
+    expect(rules('const a = cn("z-50 min-w-(--anchor-width)");').has("z-index-literal")).toBe(
+      true,
+    );
+    expect(clean('const a = cn("z-(--z-dropdown)");')).toEqual([]);
+  });
+
+  it("forbids Tailwind's own opacity scale, except opacity-0 and opacity-100", () => {
+    const rules = (source: string) => new Set(lintSource(source, "probe.tsx").map((f) => f.rule));
+    const clean = (source: string) => lintSource(source, "probe.tsx");
+
+    expect(rules('const a = cn("opacity-45");').has("opacity-literal")).toBe(true);
+    // 0 and 100 are "hidden"/"fully shown", a state rather than a design value — tag.tsx's
+    // `hover:opacity-100` and the surfaces' `data-starting-style:opacity-0`.
+    expect(clean('const a = cn("opacity-0");')).toEqual([]);
+    expect(clean('const a = cn("opacity-100");')).toEqual([]);
+    expect(clean('const a = cn("hover:opacity-100");')).toEqual([]);
+    expect(clean('const a = cva("opacity-(--opacity-disabled)");')).toEqual([]);
+  });
+
   it("lets a token reference through", () => {
     const clean = (source: string) => lintSource(source, "probe.tsx");
 
