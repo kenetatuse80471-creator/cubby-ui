@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "cubby-ui",
+  "homepage": "https://cubbyui.dev",
+  "items": [
+    {
+      "name": "tokens",
+      "type": "registry:item",
+      "title": "Cubby UI tokens",
+      "description": "Design tokens of Cubby UI as two stylesheets: the custom properties themselves (dark canon plus a light theme) and the Tailwind v4 @theme inline mapping that turns them into utilities.",
+      "author": "Sergey Orshak",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/tokens/dist/tokens.css",
+          "type": "registry:file",
+          "target": "~/styles/cubby-tokens.css"
+        },
+        {
+          "path": "packages/tokens/dist/theme.css",
+          "type": "registry:file",
+          "target": "~/styles/cubby-theme.css"
+        }
+      ],
+      "docs": "Import both files after Tailwind, in this order:\n\n  @import \"tailwindcss\";\n  @import \"../styles/cubby-tokens.css\";\n  @import \"../styles/cubby-theme.css\";\n\ncubby-tokens.css must stay unlayered: Tailwind emits its own theme inside @layer theme, and unlayered declarations win. Dark is the canon and the :root default; add data-theme=\"light\" to switch.",
+      "meta": {
+        "version": "0.0.0",
+        "source": "packages/tokens/src/tokens.json",
+        "generator": "packages/tokens/src/build.ts"
+      }
+    }
+  ]
+}
