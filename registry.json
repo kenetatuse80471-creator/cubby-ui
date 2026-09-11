@@ -356,6 +356,83 @@
       "meta": {
         "version": "0.1.0"
       }
+    },
+    {
+      "name": "text-input",
+      "type": "registry:ui",
+      "title": "TextInput",
+      "description": "Single-line field on Base UI's Input: regular/large/form heights (32/40/36), default/raised tone, an optional leading icon and a clear button.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "@hugeicons/react@^1.1.10",
+        "@hugeicons/core-free-icons@^4.3.2"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn",
+        "kenetatuse80471-creator/cubby-ui/icon"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/text-input.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Requires the Cubby UI tokens: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — then import cubby-tokens.css and cubby-theme.css after @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "text-area",
+      "type": "registry:ui",
+      "title": "TextArea",
+      "description": "Multiline field that fits its height to its content between a 72px minimum and a 240px cap, then scrolls internally; default/raised tone.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/text-area.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Requires the Cubby UI tokens: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — then import cubby-tokens.css and cubby-theme.css after @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Dropdown built on Base UI's Select (not the native element): regular/compact trigger, default/raised tone, keyboard and ARIA handled by the primitive, popup styled per the popover spec.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "@hugeicons/react@^1.1.10",
+        "@hugeicons/core-free-icons@^4.3.2"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn",
+        "kenetatuse80471-creator/cubby-ui/icon"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Requires the Cubby UI tokens: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — then import cubby-tokens.css and cubby-theme.css after @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
     }
   ]
 }
