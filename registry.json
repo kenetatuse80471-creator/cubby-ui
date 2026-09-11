@@ -433,6 +433,53 @@
       "meta": {
         "version": "0.1.1"
       }
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "A row of tabs on Base UI: roving-tabindex keyboard handling and ARIA from the primitive, the active tab a film/3 fill rather than a sliding underline, per the board spec.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "`←→` move focus between tabs without selecting, `Enter`/`Space` select, `Home`/`End` jump to the ends — Base UI's own composite keyboard handling, not reimplemented here. `size` on `TabsTab` is `regular` (32) or `compact` (28, the board spec's own measurement — see the report for which one should default). `TabsIndicator` is exported for a sliding-underline look but unused by default: the spec's active state is a fill on the tab itself. Needs the Cubby UI tokens: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — then import cubby-tokens.css and cubby-theme.css after @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A hover/focus hint on Base UI's Tooltip, fit-content up to 240, with the trigger-popup aria-describedby link the primitive itself leaves out wired in by hand.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "@base-ui/react@^1.8.0"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Shows on hover and on keyboard focus only — not a mouse click that leaves the trigger focused, Base UI's own `:focus-visible` gate — hides on Escape; none of that is reimplemented here, only the `aria-describedby` Base UI's Tooltip leaves out (unlike its Dialog, Popover and Toast). `TooltipTrigger` renders a plain button by default; pass `render` to attach the tooltip to an existing element instead. Wrap a group of triggers in `TooltipProvider` to share one open delay, so adjacent tooltips in the same row open instantly once the first one is visible. Needs the Cubby UI tokens: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — then import cubby-tokens.css and cubby-theme.css after @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
     }
   ]
 }
