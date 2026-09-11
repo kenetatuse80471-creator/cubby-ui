@@ -33,13 +33,33 @@
   --site-text-hero-mobile: 40px;
   --site-text-hero-sub: 18px;
   --site-text-h2: 36px;
-  --site-text-eyebrow: 11px;
+  /*
+   * 12, not the 11.2 measured on beui's eyebrow (§1.1) and the 11 on reactbits's
+   * table head (§3.3). The owner's own review rule is "no type below 12"; at
+   * 12/600 with the same 0.22em the caps line reads identically and the rule
+   * holds. The one deliberate deviation from the spec's type numbers.
+   */
+  --site-text-eyebrow: 12px;
 
   --site-tracking-hero: -0.025em;
   --site-tracking-h2: -0.025em;
   --site-tracking-eyebrow: 0.22em;
   --site-leading-hero: 0.95;
   --site-leading-body: 1.6;
+
+  /*
+   * Documentation type. The docs scale is NOT the marketing scale (§1.1: beui's
+   * hero is 72 and its component-page H1 only 30). The library's ramp tops out at
+   * 24 and its 16px step is a 600-weight heading, so the two rows a docs page
+   * needs — a 30px page title and a 16/24 lead paragraph — live here.
+   */
+  --site-text-h1: 30px;
+  --site-leading-h1: 36px;
+  --site-tracking-h1: -0.025em;
+  --site-text-lead: 16px;
+  --site-leading-lead: 24px;
+  /* The lead paragraph is narrower than the column it sits in — 672 (§1.6 item 5). */
+  --site-lead-max: 672px;
 
   /* Code: 13px on a 20px line, no line numbers (§6.1). */
   --site-text-code: 13px;
@@ -52,6 +72,26 @@
   --site-toc: 256px;
   --site-gutter: 32px;
   --site-header-h: 56px;
+  /*
+   * The documentation row: 240 + 32 + 816 + 32 + 256 = 1376, which with the 32px
+   * gutter on each side is exactly 1440 — the width every reference was measured
+   * at (§1.2: beui's own sum is written out there). Wider than that the row stops
+   * growing and centres, instead of stranding the table of contents at the edge.
+   */
+  --site-docs: 1376px;
+  /* The same row with its gutters — what the outer element is capped at, so the
+     columns land on 32 / 304 / 1152 exactly as measured, not 32px further in. */
+  --site-docs-shell: calc(var(--site-docs) + 2 * var(--site-gutter));
+
+  /* The demo floor: reactbits's `.demo-container` `min-height: 400px` (§3.3). */
+  --site-preview-min-h: 400px;
+  /* Collapsed code and the height of its fade — beui's 375 and `h-32` (§1.4). */
+  --site-code-max-h: 375px;
+  --site-code-fade: 128px;
+  /* The header's glass once the page has scrolled under it (§1.5, technique 15). */
+  --site-header-blur: 12px;
+  /* Where a sticky column comes to rest: clear of the 56px bar, plus air. */
+  --site-sticky-top: calc(var(--site-header-h) + var(--space-6));
 
   /* Vertical rhythm. The shorthands are composed, so each number is written once. */
   --site-hero-top: 112px;
@@ -98,16 +138,27 @@
 }
 
 /*
- * The spec measured the dark theme only — light was out of scope. The two alpha
- * strokes and the inset highlight are white-on-dark by construction, so the light
- * theme inverts them rather than inheriting something invisible. These four values
- * are the one place in this file that is NOT measured; they are a straight
- * inversion, to be replaced when the light theme is specified.
+ * The spec measured the dark theme only (§7 item 8) — light was out of scope, and
+ * the four values here started as a straight inversion by the previous pass. Two of
+ * them were wrong on screen and are corrected; the reasoning is written down because
+ * nothing above it can be measured against a reference.
+ *
+ * - the strokes went 0.07 / 0.12 → **0.12 / 0.20**. On `--bg-app` #FFFFFF a 7 % black
+ *   hairline resolves to #EDEDED, visibly weaker than the library's own opaque
+ *   `--border` #DCDFE4 (≈13.7 % black) sitting right next to it on every component
+ *   inside a preview — the shell's frames looked unfinished against the components
+ *   they framed. 12 % lands on #E0E0E0, level with the token, and 20 % gives the
+ *   hover step a job to do.
+ * - the inset highlight is **off**. It is a physical cue: one lighter pixel along the
+ *   top edge reads as a lit lip only when the surface is darker than the light. On a
+ *   white surface there is no lighter value to move to, so `rgba(255,255,255,0.7)`
+ *   rendered as nothing at all — an honest `transparent` says so instead of pretending
+ *   the effect carried over. The light theme separates layers with the stroke alone.
  */
 [data-theme="light"] {
-  --site-border: rgba(0, 0, 0, 0.07);
-  --site-border-strong: rgba(0, 0, 0, 0.12);
-  --site-highlight-offset: 0 1px 0 rgba(255, 255, 255, 0.7);
+  --site-border: rgba(0, 0, 0, 0.12);
+  --site-border-strong: rgba(0, 0, 0, 0.2);
+  --site-highlight-offset: 0 0 0 transparent;
   --site-shadow-float: 0 14px 40px rgba(0, 0, 0, 0.08);
 }
 
@@ -127,6 +178,13 @@
   --text-site-eyebrow: var(--site-text-eyebrow);
   --text-site-eyebrow--letter-spacing: var(--site-tracking-eyebrow);
 
+  --text-site-h1: var(--site-text-h1);
+  --text-site-h1--line-height: var(--site-leading-h1);
+  --text-site-h1--letter-spacing: var(--site-tracking-h1);
+
+  --text-site-lead: var(--site-text-lead);
+  --text-site-lead--line-height: var(--site-leading-lead);
+
   --text-site-code: var(--site-text-code);
   --text-site-code--line-height: var(--site-leading-code);
 
@@ -135,15 +193,22 @@
   /* Layout. */
   --container-site: var(--site-container);
   --container-site-content: var(--site-content);
+  --container-site-docs: var(--site-docs);
+  --container-site-shell: var(--site-docs-shell);
+  --container-site-lead: var(--site-lead-max);
 
   --spacing-site-sidebar: var(--site-sidebar);
   --spacing-site-toc: var(--site-toc);
   --spacing-site-gutter: var(--site-gutter);
   --spacing-site-header: var(--site-header-h);
+  --spacing-site-sticky: var(--site-sticky-top);
   --spacing-site-hero-top: var(--site-hero-top);
   --spacing-site-hero-bottom: var(--site-hero-bottom);
   --spacing-site-section-top: var(--site-section-top);
   --spacing-site-section-bottom: var(--site-section-bottom);
+  --spacing-site-preview: var(--site-preview-min-h);
+  --spacing-site-code-max: var(--site-code-max-h);
+  --spacing-site-code-fade: var(--site-code-fade);
 
   /* Radii, strokes, elevation. */
   --radius-site-card: var(--site-radius-card);
