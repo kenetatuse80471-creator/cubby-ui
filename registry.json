@@ -271,6 +271,93 @@
       }
     },
     {
+      "name": "modal",
+      "type": "registry:ui",
+      "title": "Modal",
+      "description": "A blocking dialog on Base UI: scrim, header and footer cut off by dividers, the body as the only scrolling area, and five widths from 460 to 940.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "@hugeicons/react@^1.1.10",
+        "@hugeicons/core-free-icons@^4.3.2"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn",
+        "kenetatuse80471-creator/cubby-ui/divider",
+        "kenetatuse80471-creator/cubby-ui/icon",
+        "kenetatuse80471-creator/cubby-ui/icon-button"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/modal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Focus trap, Escape, a press on the scrim, focus return and the body scroll lock (scrollbar compensated) come from Base UI Dialog. `title` and `closeLabel` are required — the dialog is named by its title and the × by its label. Compose with `ModalTrigger` and `ModalClose`, or drive it with `open` / `onOpenChange`. Needs the Cubby UI tokens: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — then import cubby-tokens.css and cubby-theme.css after @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "snackbar",
+      "type": "registry:ui",
+      "title": "Snackbar",
+      "description": "One snackbar at a time on Base UI Toast: undo lives 5 seconds, a quiet confirmation 3, an error until it is dismissed by hand.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "@hugeicons/react@^1.1.10",
+        "@hugeicons/core-free-icons@^4.3.2"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn",
+        "kenetatuse80471-creator/cubby-ui/button",
+        "kenetatuse80471-creator/cubby-ui/icon",
+        "kenetatuse80471-creator/cubby-ui/icon-button"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/snackbar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Wrap the app in `SnackbarProvider` and call `useSnackbar().notify({ kind, message, actionLabel, onAction, closeLabel })`. A new snackbar displaces the one on screen — the queue never piles up — and every timer pauses while the viewport is hovered or holds focus. `Snackbar` without a toast object renders the same bar statically. Needs the Cubby UI tokens: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — then import cubby-tokens.css and cubby-theme.css after @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
+      "name": "context-action-menu",
+      "type": "registry:ui",
+      "title": "ContextActionMenu",
+      "description": "The row-level «…» menu on Base UI Menu: 210 wide, items 28 high, the destructive ones last in their own group behind a divider.",
+      "author": "Sergey Orshak",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "@hugeicons/react@^1.1.10",
+        "@hugeicons/core-free-icons@^4.3.2"
+      ],
+      "registryDependencies": [
+        "kenetatuse80471-creator/cubby-ui/cn",
+        "kenetatuse80471-creator/cubby-ui/divider",
+        "kenetatuse80471-creator/cubby-ui/icon",
+        "kenetatuse80471-creator/cubby-ui/icon-button"
+      ],
+      "files": [
+        {
+          "path": "packages/registry/src/ui/context-action-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Pass `actions` and the required `ariaLabel`; the default trigger is a text IconButton with «…». Opening by click, arrow keys, Enter, Escape, typeahead and the focus returning to the trigger are Base UI. The `Menu*` parts are exported as well, so the same surface can be composed into any popover. Needs the Cubby UI tokens: npx shadcn@latest add kenetatuse80471-creator/cubby-ui/tokens — then import cubby-tokens.css and cubby-theme.css after @import \"tailwindcss\".",
+      "meta": {
+        "version": "0.1.0"
+      }
+    },
+    {
       "name": "text-input",
       "type": "registry:ui",
       "title": "TextInput",

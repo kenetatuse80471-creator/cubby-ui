@@ -9,6 +9,9 @@ import * as iconButton from "@/registry/cubby/demos/icon-button-demo";
 import * as spinner from "@/registry/cubby/demos/spinner-demo";
 import * as switchDemo from "@/registry/cubby/demos/switch-demo";
 import * as tag from "@/registry/cubby/demos/tag-demo";
+import * as modal from "@/registry/cubby/demos/modal-demo";
+import * as snackbar from "@/registry/cubby/demos/snackbar-demo";
+import * as contextActionMenu from "@/registry/cubby/demos/context-action-menu-demo";
 import * as textInput from "@/registry/cubby/demos/text-input-demo";
 import * as textArea from "@/registry/cubby/demos/text-area-demo";
 import * as select from "@/registry/cubby/demos/select-demo";
@@ -24,6 +27,9 @@ export const demos: Demo[] = [
   spinner,
   emptyState,
   switchDemo,
+  modal,
+  snackbar,
+  contextActionMenu,
   textInput,
   textArea,
   select,
