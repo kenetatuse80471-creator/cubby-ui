@@ -7,7 +7,7 @@ import { EmptyState } from "@/registry/cubby/ui/empty-state";
 /** The 404 of `/pro/*`: the route exists, the thing behind it does not yet. */
 export default function ProNotFound() {
   return (
-    <div className="mx-auto flex max-w-site-content flex-col px-5 py-20">
+    <div className="mx-auto flex max-w-site-content flex-col px-5 py-64">
       <EmptyState
         icon={SquareLock02Icon}
         title="Pro is not available yet"

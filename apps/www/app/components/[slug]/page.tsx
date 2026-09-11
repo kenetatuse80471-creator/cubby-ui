@@ -87,11 +87,22 @@ function Section({
   );
 }
 
-/** The file an example lives in — monospace on a 13 % film, as measured (§1.1). */
+/**
+ * The file an example lives in — monospace on a 13 % film, as measured (§1.1).
+ *
+ * The badge shows the file name, not the path: beui's reads `metallic.tsx`, four
+ * characters wider than the heading beside it, and that is the point — a badge is a
+ * label, and `components/examples/button/default.tsx` at the end of a heading row is
+ * a second sentence. The whole path is one tab away, in the code block's own header,
+ * where it is the answer to "where do I copy this from".
+ */
 function FileBadge({ path }: { path: string }) {
   return (
-    <span className="rounded-role-tag bg-film-2 px-2 py-1 font-site-mono text-caption-sm text-text-2">
-      {path}
+    <span
+      title={path}
+      className="rounded-role-tag bg-film-2 px-2 py-1 font-site-mono text-caption-sm text-text-2"
+    >
+      {path.slice(path.lastIndexOf("/") + 1)}
     </span>
   );
 }
@@ -152,7 +163,13 @@ export default async function ComponentPage({ params }: { params: Promise<{ slug
             View as Markdown
           </a>
         </div>
-        <p className="max-w-site-lead text-site-lead text-text-body">{item.description}</p>
+        {/*
+          Muted, not body ink. Every reference sets the lead under a page title in its
+          secondary grey — beui's is `#868686`, one step below its text — so the title
+          stays the brightest thing in the header and the eye reaches the demo without
+          reading a paragraph first. `--text-2` is #83868A, the same step.
+        */}
+        <p className="max-w-site-lead text-site-lead text-text-2">{item.description}</p>
       </header>
 
       <div className="mt-4 flex flex-col gap-5">

@@ -29,7 +29,7 @@ export default function ComponentsPage() {
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-2">
         <h1 className="text-site-h1 font-semibold text-text-1">Components</h1>
-        <p className="max-w-site-lead text-site-lead text-text-body">
+        <p className="max-w-site-lead text-site-lead text-text-2">
           {catalog.length} items, grouped by what they are for. Every page carries the install
           command, a live example with the source that produced it, and the component&rsquo;s own
           code.

@@ -17,7 +17,10 @@ export function PropsTable({ docs }: { docs: ComponentPropsDoc[] }) {
     <div className="flex flex-col gap-6">
       {docs.map((doc) => (
         <div key={doc.displayName} className="flex flex-col gap-3">
-          <h3 id={`props-${doc.displayName}`} className="font-site-mono text-body-md text-text-1">
+          <h3
+            id={`props-${doc.displayName}`}
+            className="scroll-mt-site-sticky font-site-mono text-body-md text-text-1"
+          >
             {doc.displayName}
           </h3>
           <div className="rounded-role-surface bg-film-1 p-1 inset-shadow-site-highlight">
