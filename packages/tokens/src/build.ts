@@ -2,7 +2,8 @@
  * Generates the four token artefacts from `src/tokens.json`.
  *
  *   dist/tokens.css        CSS custom properties, Altis cascade contract (see README)
- *   dist/theme.css         Tailwind v4 `@theme inline` mapping
+ *   dist/theme.css         Tailwind v4 theme: a plain `@theme` reset of Tailwind's default
+ *                          scales, then the Cubby UI tokens as `@theme inline`
  *   dist/tokens.ts         typed object for React Native / NativeWind
  *   dist/tokens.paper.json flat name → value-per-mode map, for the trip back to Paper/Figma
  *
@@ -274,6 +275,42 @@ for (const emit of collectionOf("Motion")) {
   push(`  --ease-${emit.entry.variable.name.split("/").pop()}: var(${emit.name});`);
 }
 
+/*
+ * Reset block: a plain (non-`inline`) `@theme`, placed *before* the `@theme inline` block below
+ * — order is load-bearing, see the comment inside the generated file and REPORT-theme-reset.md.
+ * `NAMESPACE-*: initial` clears every entry already set in that namespace at the point it runs;
+ * before the inline block it clears only Tailwind's bundled defaults (always processed first),
+ * so a later Cubby entry of the same name (`--radius-xl`, `--ease-linear`) still wins. After the
+ * inline block, the same line would also wipe those Cubby entries — verified both ways with a
+ * real Tailwind build, not assumed.
+ *
+ * Namespaces intentionally left out, and why (also verified, not assumed):
+ *   --breakpoint-*  sm:/md:/lg:/xl: variants are load-bearing across the registry.
+ *   --container-*   unused today; the bare `container` utility already resolves its steps
+ *                   from --breakpoint-* (so it is not a pure Tailwind-default bypass), and
+ *                   resetting it would also foreclose @container query variants.
+ *   --animate-*     would delete Tailwind's own `animate-spin` utility. Spinner keeps using
+ *                   that utility and overrides only the *value* of --animate-spin (an
+ *                   arbitrary property driven by the motion tokens), not the utility itself.
+ * Not addressable from here at all — no @theme namespace backs them, Tailwind computes them
+ * directly in the engine: duration-<n>, opacity-<n>, z-<n>. The latter two already have a
+ * lint-tokens.ts rule (z-index-literal, opacity-literal); duration-<n> now has one too
+ * (duration-literal) — a theme reset cannot reach a utility with no backing theme key.
+ */
+const resetLines = [
+  "--color-*: initial;",
+  "--radius-*: initial;",
+  "--shadow-*: initial;",
+  "--text-*: initial;",
+  "--font-*: initial;",
+  "--spacing: initial;",
+  "--ease-*: initial;",
+  "--blur-*: initial;",
+  "--tracking-*: initial;",
+  "--leading-*: initial;",
+  "--perspective-*: initial;",
+];
+
 const themeCss = `/* ============================================================================
  * Cubby UI Tailwind v4 theme — generated file, do not edit.
  *
@@ -292,6 +329,29 @@ const themeCss = `/* ===========================================================
  * tokens.css must stay unlayered (plain \`:root\`), as Tailwind emits its theme inside
  * \`@layer theme\` and unlayered declarations win.
  * ========================================================================== */
+
+/* Resets Tailwind's own default scales before the Cubby UI tokens below are declared, so a
+ * class without a token (\`p-9\`, \`text-lg\`, \`rounded-2xl\`, \`shadow-md\`, \`bg-red-500\`, ...)
+ * produces no CSS at all, instead of silently compiling from Tailwind's bundled values. Order
+ * is load-bearing: \`NAMESPACE-*: initial\` clears every entry already set in that namespace
+ * *so far* — here, that is only Tailwind's bundled defaults (always processed before this
+ * file), so a later Cubby entry of the same name below (\`--radius-xl\`, \`--ease-linear\`) still
+ * wins. Placed after the \`@theme inline\` block instead, the same line would erase those Cubby
+ * entries too — verified both ways with a real Tailwind build, see REPORT-theme-reset.md.
+ *
+ * Left out on purpose: \`--breakpoint-*\` (sm:/md:/lg:/xl: variants are used throughout the
+ * registry), \`--container-*\` (unused today, and the bare \`container\` utility already keys
+ * its steps off --breakpoint-*, so it is not a pure Tailwind-default bypass), \`--animate-*\`
+ * (would delete Tailwind's own \`animate-spin\` utility, which Spinner still uses — it
+ * overrides only the *value* of --animate-spin via an arbitrary property, not the utility
+ * itself). \`duration-<n>\`, \`opacity-<n>\`, \`z-<n>\` have no backing theme namespace at all —
+ * Tailwind computes them directly in the engine — so no line here can reach them; the latter
+ * two already have a lint-tokens.ts rule (z-index-literal, opacity-literal) and duration-<n>
+ * now has one too (duration-literal).
+ */
+@theme {
+${resetLines.map((line) => `  ${line}`).join("\n")}
+}
 
 @theme inline {
 ${themeLines.join("\n")}
