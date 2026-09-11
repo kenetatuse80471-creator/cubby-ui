@@ -77,7 +77,7 @@ export function IconButton({
       data-selected={selected ? "" : undefined}
       data-loading={loading ? "" : undefined}
       aria-busy={loading || undefined}
-      disabled={disabled ?? loading}
+      disabled={disabled || loading}
       className={cn(iconButtonVariants({ variant, size }), className)}
       {...props}
     >

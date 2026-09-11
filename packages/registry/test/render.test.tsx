@@ -74,9 +74,34 @@ describe("disabled", () => {
     expect(html).toContain('data-slot="button-spinner"');
   });
 
+  it("button in loading stays disabled even with an explicit disabled={false}", () => {
+    // `disabled ?? loading` let this through: `false ?? true` is `false`, not `true`, so an
+    // explicit `disabled={false}` used to leave a loading button clickable.
+    const html = renderToStaticMarkup(
+      <Button loading disabled={false}>
+        Создать
+      </Button>,
+    );
+    expect(html).toContain("disabled");
+  });
+
   it("icon-button sets the attribute", () => {
     const html = renderToStaticMarkup(
       <IconButton aria-label="Удалить" disabled icon={<Icon icon={Alert01Icon} />} />,
+    );
+    expect(html).toContain("disabled");
+  });
+
+  it("icon-button in loading stays disabled even with an explicit disabled={false}", () => {
+    // Same defect as Button, same fix: icon-button.tsx carried the identical
+    // `disabled ?? loading`.
+    const html = renderToStaticMarkup(
+      <IconButton
+        aria-label="Удалить"
+        loading
+        disabled={false}
+        icon={<Icon icon={Alert01Icon} />}
+      />,
     );
     expect(html).toContain("disabled");
   });

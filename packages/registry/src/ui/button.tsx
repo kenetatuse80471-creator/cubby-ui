@@ -89,7 +89,7 @@ export function Button({
       data-slot="button"
       data-loading={loading ? "" : undefined}
       aria-busy={loading || undefined}
-      disabled={disabled ?? loading}
+      disabled={disabled || loading}
       className={cn(buttonVariants({ variant, size, fullWidth }), className)}
       {...props}
     >
