@@ -1,0 +1,9 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# pnpm 12 asks explicitly which dependencies may run install scripts.
+# @parcel/watcher (pulled in by @changesets/cli) ships prebuilt binaries, so it does not
+# need one; without this entry `pnpm install` exits non-zero and CI fails on the first step.
+allowBuilds:
+  "@parcel/watcher": false

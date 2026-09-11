@@ -1,0 +1,38 @@
+{
+  "name": "cubby-ui",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Cubby UI — a component library delivered through a shadcn registry.",
+  "license": "MIT",
+  "author": "Sergey Orshak",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kenetatuse80471-creator/cubby-ui.git"
+  },
+  "type": "module",
+  "packageManager": "pnpm@12.4.1",
+  "engines": {
+    "node": ">=22.18.0",
+    "pnpm": ">=10"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "tokens:build": "pnpm --filter @cubby-ui/tokens run tokens:build",
+    "tokens:check": "pnpm --filter @cubby-ui/tokens run tokens:build && git diff --exit-code -- packages/tokens/dist",
+    "registry:build": "shadcn build registry.json --output public/r",
+    "registry:validate": "shadcn registry validate registry.json",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "ci": "pnpm tokens:check && pnpm registry:validate && pnpm typecheck && pnpm test"
+  },
+  "devDependencies": {
+    "@changesets/cli": "3.0.2",
+    "@types/node": "22.20.2",
+    "shadcn": "4.21.0",
+    "turbo": "2.10.12",
+    "typescript": "7.0.2"
+  }
+}

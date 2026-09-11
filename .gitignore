@@ -1,0 +1,29 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build output
+.turbo/
+.next/
+out/
+build/
+*.tsbuildinfo
+
+# generated registry payloads (rebuilt by `pnpm registry:build`)
+public/r/
+
+# environment
+.env
+.env.*
+!.env.example
+
+# editors / os
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
