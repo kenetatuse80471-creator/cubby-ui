@@ -3,8 +3,9 @@ import { Button } from "@/registry/cubby/ui/button";
 import { EmptyState } from "@/registry/cubby/ui/empty-state";
 
 /**
- * PLACEHOLDER — renders, but it is not yet a product example.
- * NEXT EXECUTOR: replace with one short, real use, the way `button/default.tsx` is written.
+ * An empty board is not an error: the icon is muted, the copy names the
+ * situation without blame, and the one action is the same button that
+ * creates every other task on it.
  */
 export default function EmptyStateDefault() {
   return (

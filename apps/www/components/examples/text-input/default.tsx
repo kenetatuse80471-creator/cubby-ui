@@ -1,17 +1,15 @@
-import { Search01Icon } from "@hugeicons/core-free-icons";
-import { Icon } from "@/registry/cubby/ui/icon";
 import { TextInput } from "@/registry/cubby/ui/text-input";
 
 /**
- * PLACEHOLDER — renders, but it is not yet a product example.
- * NEXT EXECUTOR: replace with one short, real use, the way `button/default.tsx` is written.
+ * The first field of "New task": nothing before it needs to be decided, so
+ * it carries no icon and no clear button — just a title, typed the moment
+ * the form opens.
  */
 export default function TextInputDefault() {
   return (
-    <TextInput
-      aria-label="Search tasks"
-      placeholder="Search tasks"
-      iconStart={<Icon icon={Search01Icon} />}
-    />
+    <div className="flex w-comp-auth-card flex-col gap-2">
+      <span className="text-ui-md text-text-1">Title</span>
+      <TextInput aria-label="Title" placeholder="e.g. Redesign the onboarding flow" />
+    </div>
   );
 }
