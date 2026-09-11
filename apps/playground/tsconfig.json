@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "rewriteRelativeImportExtensions": false,
+    "jsx": "react-jsx",
+    "paths": {
+      "@/registry/cubby/*": [
+        "../../packages/registry/src/*"
+      ],
+      "@/lib/*": [
+        "../../packages/registry/src/lib/*"
+      ]
+    },
+    "types": [
+      "vite/client"
+    ]
+  },
+  "include": [
+    "src",
+    "scripts",
+    "vite.config.ts"
+  ]
+}

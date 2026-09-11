@@ -1,0 +1,27 @@
+@import "tailwindcss";
+/* Unlayered on purpose: Tailwind emits its own theme inside @layer theme and an
+   unlayered :root wins, which is what keeps the token literals in charge. */
+@import "@cubby-ui/tokens/tokens.css";
+@import "@cubby-ui/tokens/theme.css";
+
+/* The demos live outside this app, so Tailwind has to be told where to look. */
+@source "../../../packages/registry/src";
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  [data-theme="light"] {
+    color-scheme: light;
+  }
+
+  body {
+    /* `--font` is the family name only — the token set has no fallback stack yet
+       (see the report), so the stack is spelled out here, in the app. */
+    font-family: var(--font), ui-sans-serif, system-ui, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg-app);
+    color: var(--text-1);
+    -webkit-font-smoothing: antialiased;
+  }
+}
