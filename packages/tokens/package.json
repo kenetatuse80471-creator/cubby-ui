@@ -1,0 +1,26 @@
+{
+  "name": "@cubby-ui/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Design tokens of Cubby UI: one Figma export in, CSS / Tailwind theme / TypeScript / Paper map out.",
+  "license": "MIT",
+  "type": "module",
+  "files": ["dist", "src", "SOURCE.md", "README.md"],
+  "exports": {
+    ".": "./dist/tokens.ts",
+    "./tokens.css": "./dist/tokens.css",
+    "./theme.css": "./dist/theme.css",
+    "./paper": "./dist/tokens.paper.json",
+    "./source": "./src/tokens.json"
+  },
+  "scripts": {
+    "tokens:build": "node src/build.ts",
+    "build": "node src/build.ts",
+    "test": "node --test test/",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.3",
+    "tailwindcss": "4.3.3"
+  }
+}

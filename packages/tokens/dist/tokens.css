@@ -1,0 +1,373 @@
+/* ============================================================================
+ * Cubby UI design tokens — generated file, do not edit.
+ *
+ * Source:    packages/tokens/src/tokens.json (sha256 3ddaaeae54c501299c12f6b4f80a91e317ed448da67ac1b397ba0ee2f86897d6)
+ * Generator: packages/tokens/src/build.ts   (pnpm tokens:build)
+ *
+ * Cascade contract, copied deliberately from Altis docs/design/tokens.css so this file can
+ * replace it verbatim: the web app switches themes with `data-theme` on <html>, the
+ * prototype with `class="dark" | "light"` on <body>. A custom property whose value contains
+ * var() resolves against the element it is declared on, so every var()-derived alias lives in
+ * the `:root, body` block and every literal lives in `:root` or in a theme block.
+ *
+ * Dark is the canon and is also the `:root` default before a theme is applied.
+ * Primitives (hidden: true in the export) are never declared here — their values are inlined.
+ *
+ * Name collisions in the source export (nothing is repaired here, only reported):
+ *   - --film-border: declared by both Color/color/film/border and Color/color/border/film (identical values, emitted once)
+ *   - --film-border-strong: declared by both Color/color/film/border-strong and Color/color/border/film-strong (identical values, emitted once)
+ *   - --accent: declared by both Color/color/border/focus and Color/color/accent/default (identical values, emitted once)
+ *   - --text-on-plate: declared by both Color/color/text/on-plate and Color/color/plate/text (identical values, emitted once)
+ *   - --opacity-disabled: declared by both Size/size/opacity/disabled and Size/size/opacity/disabled-pct with DIFFERENT values — the first one wins
+ * ========================================================================== */
+
+/* Structural primitives — identical in every theme. */
+:root {
+  /* Space */
+  --space-0: 0px;
+  --space-2px: 2px;
+  --space-1: 4px;
+  --space-6px: 6px;
+  --space-2: 8px;
+  --space-10px: 10px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-28: 28px;
+  --space-7: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+
+  /* Radius */
+  --radius-2: 2px;
+  --radius-sm: 4px;
+  --radius-6: 6px;
+  --radius-md: 8px;
+  --radius-10: 10px;
+  --radius-lg: 12px;
+  --radius-14: 14px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Size */
+  --icon-sm: 12px;
+  --icon-md: 16px;
+  --icon-lg: 20px;
+  --icon-xl: 32px;
+  --control-h-xs: 24px;
+  --control-h-sm: 28px;
+  --control-h-md: 32px;
+  --control-h-lg: 36px;
+  --control-h-xl: 40px;
+  --avatar-xs: 20px;
+  --avatar-sm: 24px;
+  --avatar-md: 28px;
+  --avatar-lg: 32px;
+  --avatar-xl: 64px;
+  --row-h-menu: 28px;
+  --sidebar-board-row-h: 32px;
+  --sidebar-row-h: 36px;
+  --row-h-list: 40px;
+  --row-h-snackbar: 44px;
+  --sidebar-w: 240px;
+  --sidebar-rail-w: 72px;
+  --sidebar-pad: 12px;
+  --topbar-h: 56px;
+  --kanban-column-min-width: 220px;
+  --kanban-board-column-gap: 12px;
+  --task-aside-w: 280px;
+  --notif-drawer-w: 400px;
+  --notif-drawer-h: 420px;
+  --reading-max: 680px;
+  --content-max: 1120px;
+  --content-pad: 20px;
+  --modal-w-sm: 460px;
+  --modal-w-md: 560px;
+  --modal-w-lg: 620px;
+  --modal-w-xl: 720px;
+  --modal-w-2xl: 940px;
+  --modal-w-2xl-h: 780px;
+  --bp-sm: 600px;
+  --bp-md: 900px;
+  --bp-lg: 1200px;
+  --bp-xl: 1440px;
+  --opacity-disabled: 0.45;
+  --opacity-dragging: 0.4;
+  --stroke-hairline: 1px;
+  --stroke-control: 1.5px;
+  --stroke-focus: 2px;
+  --checkbox-size: 16px;
+  --counter-size: 16px;
+  --tag-height: 20px;
+  --switch-track-w: 30px;
+  --switch-track-h: 18px;
+  --switch-knob: 14px;
+  --spinner-size-regular: 20px;
+  --spinner-size-compact: 12px;
+  --progress-track-h: 4px;
+  --progress-fixed-w: 38px;
+  --swatch-dot: 16px;
+  --badge-dot: 6px;
+  --skeleton-line-h: 16px;
+  --skeleton-block-h: 64px;
+  --avatar-overlap: -6px;
+  --avatar-ring: 2px;
+  --textarea-min-h: 72px;
+  --button-min-w: 64px;
+  --comp-search-fixed: 248px;
+  --comp-menu-item: 202px;
+  --comp-sidebar-row: 216px;
+  --sidebar-fade-rest: 31px;
+  --sidebar-fade-hover: 93px;
+  --sidebar-email-fade: 32px;
+  --comp-kanban-card: 204px;
+  --comp-stage-mark-w: 3px;
+  --comp-stage-mark-h: 14px;
+  --comp-stage-mark-tab: 12px;
+  --opacity-dragging-pct: 40;
+  --task-lane-w: 66px;
+  --comp-table-col-sm: 120px;
+  --comp-table-col-md: 200px;
+  --comp-property-col: 240px;
+  --comp-project-card: 280px;
+  --comp-settings-nav: 240px;
+  --comp-filterbar: 48px;
+  --comp-group-header: 28px;
+  --comp-property-gap: 22px;
+  --comp-auth-card: 400px;
+  --comp-auth-field-gap: 14px;
+  --comp-workspace-card: 480px;
+  --comp-workspace-row: 48px;
+  --comp-landing-max: 1200px;
+  --comp-landing-card: 360px;
+  --comp-history-icon: 24px;
+  --comp-sidebar-brand: 52px;
+  --comp-empty-text: 320px;
+  --comp-empty-text-sm: 180px;
+  --comp-column-min: 240px;
+  --comp-snackbar-max: 420px;
+  --comp-snackbar-stripe: 3px;
+  --comp-popover-menu: 210px;
+  --comp-popover-grid: 240px;
+  --comp-popover-panel: 300px;
+  --comp-surface-header: 56px;
+  --layout-window-h: 900px;
+  --due-lane-w: 72px;
+  --timer-lane-w: 80px;
+
+  /* Motion */
+  --motion-instant: 0ms;
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 300ms;
+  --motion-splash: 400ms;
+  --motion-shimmer-duration: 1400ms;
+  --motion-spin-duration: 800ms;
+  --motion-snackbar: 5000ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --ease-linear: linear;
+
+  /* Layer — z-index scale */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky: 100;
+  --z-drawer: 200;
+  --z-dropdown: 300;
+  --z-scrim: 400;
+  --z-modal: 410;
+  --z-snackbar: 500;
+  --z-tooltip: 600;
+
+  /* Typography. One family in the export; the type ramp comes from textStyles. */
+  --font: "Inter";
+  --text-display-lg: 24px;
+  --leading-display-lg: 28px;
+  --tracking-display-lg: -0.48px;
+  --font-weight-display-lg: 600;
+  --text-heading-h1: 22px;
+  --leading-heading-h1: 28px;
+  --tracking-heading-h1: -0.44px;
+  --font-weight-heading-h1: 600;
+  --text-heading-h2: 20px;
+  --leading-heading-h2: 26px;
+  --tracking-heading-h2: -0.2px;
+  --font-weight-heading-h2: 600;
+  --text-heading-h3: 16px;
+  --leading-heading-h3: 22px;
+  --tracking-heading-h3: -0.16px;
+  --font-weight-heading-h3: 600;
+  --text-body-md: 14px;
+  --leading-body-md: 20px;
+  --tracking-body-md: -0.14px;
+  --font-weight-body-md: 400;
+  --text-body-md-strong: 14px;
+  --leading-body-md-strong: 20px;
+  --tracking-body-md-strong: -0.14px;
+  --font-weight-body-md-strong: 500;
+  --text-ui-md: 13px;
+  --leading-ui-md: 16px;
+  --tracking-ui-md: -0.13px;
+  --font-weight-ui-md: 500;
+  --text-ui-md-regular: 13px;
+  --leading-ui-md-regular: 16px;
+  --tracking-ui-md-regular: -0.13px;
+  --font-weight-ui-md-regular: 400;
+  --text-ui-md-tabular: 13px;
+  --leading-ui-md-tabular: 16px;
+  --tracking-ui-md-tabular: -0.13px;
+  --font-weight-ui-md-tabular: 500;
+  --text-caption-sm: 12px;
+  --leading-caption-sm: 16px;
+  --tracking-caption-sm: 0px;
+  --font-weight-caption-sm: 400;
+  --text-caption-sm-strong: 12px;
+  --leading-caption-sm-strong: 16px;
+  --tracking-caption-sm-strong: 0px;
+  --font-weight-caption-sm-strong: 500;
+  --text-caption-sm-tabular: 12px;
+  --leading-caption-sm-tabular: 16px;
+  --tracking-caption-sm-tabular: 0px;
+  --font-weight-caption-sm-tabular: 400;
+  --text-label-sm: 12px;
+  --leading-label-sm: 16px;
+  --tracking-label-sm: 0.48px;
+  --font-weight-label-sm: 600;
+  --text-mono-sm: 13px;
+  --leading-mono-sm: 16px;
+  --tracking-mono-sm: 0px;
+  --font-weight-mono-sm: 400;
+
+  /* Elevation. effectStyles carry a single set — the export has no per-theme shadows. */
+  --shadow-raised: 0px 1px 3px rgba(0, 0, 0, 0.349);
+  --shadow-popover: 0px 8px 24px rgba(0, 0, 0, 0.349);
+  --shadow-overlay: 0px 24px 64px rgba(0, 0, 0, 0.4);
+}
+
+/* Dark palette — the redesign canon, and the `:root` default before a theme is applied. */
+:root, body.dark, [data-theme="dark"] {
+  --bg-app: #17181A;
+  --bg-sidebar: #1C1D1F;
+  --bg-surface: #1C1D1F;
+  --bg-well: #131416;
+  --bg-raised: #232427;
+  --bg-overlay: #232427;
+  --scrim: #00000080;
+  --film-1: #A8ABB212;
+  --film-2: #A8ABB221;
+  --film-3: #A8ABB226;
+  --film-border: #A8ABB21F;
+  --film-border-strong: #A8ABB233;
+  --border: #2F3033;
+  --border-control: #707376;
+  --accent: #0A84FF;
+  --text-1: #E1E1E5;
+  --text-body: #C9CBD0;
+  --text-2: #83868A;
+  --text-3: #707376;
+  --on-accent: #FFFFFF;
+  --text-on-plate: #17181A;
+  --accent-wash: #0A84FF14;
+  --accent-line: #0A84FF59;
+  --accent-2: #D694F7;
+  --success: #30D158;
+  --success-text: #7EE0A0;
+  --danger: #FF8A8A;
+  --warning: #FFC160;
+  --plate: #E1E1E5;
+  --stage-gray: #86868B;
+  --stage-gray-text: #96969A;
+  --stage-blue: #0A84FF;
+  --stage-blue-text: #3198FF;
+  --stage-teal: #40C8E0;
+  --stage-teal-text: #40C8E0;
+  --stage-green: #30D158;
+  --stage-green-text: #30D158;
+  --stage-yellow: #FFD60A;
+  --stage-yellow-text: #FFD60A;
+  --stage-orange: #FF9F0A;
+  --stage-orange-text: #FF9F0A;
+  --stage-red: #FF453A;
+  --stage-red-text: #FF6158;
+  --stage-purple: #BF5AF2;
+  --stage-purple-text: #C871F4;
+  --btn-primary-surface-hover: #D5D5D9;
+}
+
+/* Light palette. */
+body.light, [data-theme="light"] {
+  --bg-app: #FFFFFF;
+  --bg-sidebar: #F6F7F8;
+  --bg-surface: #FFFFFF;
+  --bg-well: #F1F2F4;
+  --bg-raised: #F1F2F4;
+  --bg-overlay: #FFFFFF;
+  --scrim: #17203673;
+  --film-1: #5C5F6612;
+  --film-2: #5C5F661F;
+  --film-3: #5C5F6626;
+  --film-border: #5C5F661F;
+  --film-border-strong: #5C5F6633;
+  --border: #DCDFE4;
+  --border-control: #B3B9C4;
+  --accent: #0B66D0;
+  --text-1: #172B4D;
+  --text-body: #44546F;
+  --text-2: #626F86;
+  --text-3: #8993A4;
+  --on-accent: #FFFFFF;
+  --text-on-plate: #FFFFFF;
+  --accent-wash: #0B66D014;
+  --accent-line: #0B66D059;
+  --accent-2: #6E5DC6;
+  --success: #1B7E55;
+  --success-text: #1B7E55;
+  --danger: #C9372C;
+  --warning: #B3520C;
+  --plate: #172B4D;
+  --stage-gray: #6E6E73;
+  --stage-gray-text: #6E6E73;
+  --stage-blue: #007AFF;
+  --stage-blue-text: #006ADE;
+  --stage-teal: #30B0C7;
+  --stage-teal-text: #217989;
+  --stage-green: #34C759;
+  --stage-green-text: #217F39;
+  --stage-yellow: #FFCC00;
+  --stage-yellow-text: #856A00;
+  --stage-orange: #FF9500;
+  --stage-orange-text: #A15E00;
+  --stage-red: #FF3B30;
+  --stage-red-text: #D13027;
+  --stage-purple: #AF52DE;
+  --stage-purple-text: #9A48C3;
+  --btn-primary-surface-hover: #253858;
+}
+
+/* Derived aliases: every value below is a var() reference, so it is declared on both
+   `:root` and `body` to resolve against whichever element carries the active palette. */
+:root, body {
+  --kanban-column-card-surface: var(--film-2);
+  --kanban-column-card-surface-hover: var(--film-3);
+  --kanban-column-card-border: var(--film-border-strong);
+  --kanban-column-surface: var(--bg-well);
+  --sidebar-row-hover: var(--film-1);
+  --sidebar-row-selected: var(--film-3);
+  --control-primary: var(--plate);
+  --control-on-primary: var(--text-on-plate);
+  --control-secondary: var(--film-1);
+  --control-secondary-border: var(--film-border);
+  --bg-input: var(--film-2);
+  --sidebar-row-drop-surface: var(--accent-wash);
+  --sidebar-row-drop-border: var(--accent-line);
+  --radius-role-mark: var(--radius-2);
+  --radius-role-tag: var(--radius-6);
+  --radius-role-control: var(--radius-md);
+  --radius-role-card: var(--radius-10);
+  --radius-role-row: var(--radius-lg);
+  --radius-role-overlay: var(--radius-lg);
+  --radius-role-surface: var(--radius-14);
+  --radius-role-auth: var(--radius-xl);
+  --radius-role-pill: var(--radius-full);
+}

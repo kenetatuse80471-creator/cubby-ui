@@ -1,0 +1,336 @@
+/* ============================================================================
+ * Cubby UI Tailwind v4 theme — generated file, do not edit.
+ *
+ * Source:    packages/tokens/src/tokens.json (sha256 3ddaaeae54c501299c12f6b4f80a91e317ed448da67ac1b397ba0ee2f86897d6)
+ * Generator: packages/tokens/src/build.ts   (pnpm tokens:build)
+ *
+ * Import after tokens.css and after Tailwind itself:
+ *
+ *   @import "tailwindcss";
+ *   @import "./cubby-tokens.css";
+ *   @import "./cubby-theme.css";
+ *
+ * `inline` is required because every entry below points at another custom property:
+ * without it the utility would resolve the variable where the theme is declared instead of
+ * where the utility is used, and theme switching would stop working.
+ * tokens.css must stay unlayered (plain `:root`), as Tailwind emits its theme inside
+ * `@layer theme` and unlayered declarations win.
+ * ========================================================================== */
+
+@theme inline {
+  /* Colours — a var() reference so the utility follows the active theme. */
+  --color-bg-app: var(--bg-app);
+  --color-bg-sidebar: var(--bg-sidebar);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-well: var(--bg-well);
+  --color-bg-raised: var(--bg-raised);
+  --color-bg-overlay: var(--bg-overlay);
+  --color-scrim: var(--scrim);
+  --color-film-1: var(--film-1);
+  --color-film-2: var(--film-2);
+  --color-film-3: var(--film-3);
+  --color-film-border: var(--film-border);
+  --color-film-border-strong: var(--film-border-strong);
+  --color-border: var(--border);
+  --color-border-control: var(--border-control);
+  --color-accent: var(--accent);
+  --color-text-1: var(--text-1);
+  --color-text-body: var(--text-body);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-on-accent: var(--on-accent);
+  --color-text-on-plate: var(--text-on-plate);
+  --color-accent-wash: var(--accent-wash);
+  --color-accent-line: var(--accent-line);
+  --color-accent-2: var(--accent-2);
+  --color-success: var(--success);
+  --color-success-text: var(--success-text);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-plate: var(--plate);
+  --color-stage-gray: var(--stage-gray);
+  --color-stage-gray-text: var(--stage-gray-text);
+  --color-stage-blue: var(--stage-blue);
+  --color-stage-blue-text: var(--stage-blue-text);
+  --color-stage-teal: var(--stage-teal);
+  --color-stage-teal-text: var(--stage-teal-text);
+  --color-stage-green: var(--stage-green);
+  --color-stage-green-text: var(--stage-green-text);
+  --color-stage-yellow: var(--stage-yellow);
+  --color-stage-yellow-text: var(--stage-yellow-text);
+  --color-stage-orange: var(--stage-orange);
+  --color-stage-orange-text: var(--stage-orange-text);
+  --color-stage-red: var(--stage-red);
+  --color-stage-red-text: var(--stage-red-text);
+  --color-stage-purple: var(--stage-purple);
+  --color-stage-purple-text: var(--stage-purple-text);
+  --color-kanban-column-card-surface: var(--kanban-column-card-surface);
+  --color-kanban-column-card-surface-hover: var(--kanban-column-card-surface-hover);
+  --color-kanban-column-card-border: var(--kanban-column-card-border);
+  --color-kanban-column-surface: var(--kanban-column-surface);
+  --color-sidebar-row-hover: var(--sidebar-row-hover);
+  --color-sidebar-row-selected: var(--sidebar-row-selected);
+  --color-control-primary: var(--control-primary);
+  --color-control-on-primary: var(--control-on-primary);
+  --color-control-secondary: var(--control-secondary);
+  --color-control-secondary-border: var(--control-secondary-border);
+  --color-bg-input: var(--bg-input);
+  --color-sidebar-row-drop-surface: var(--sidebar-row-drop-surface);
+  --color-sidebar-row-drop-border: var(--sidebar-row-drop-border);
+  --color-btn-primary-surface-hover: var(--btn-primary-surface-hover);
+
+  /* Spacing scale (Space collection). */
+  --spacing-0: var(--space-0);
+  --spacing-2px: var(--space-2px);
+  --spacing-1: var(--space-1);
+  --spacing-6px: var(--space-6px);
+  --spacing-2: var(--space-2);
+  --spacing-10px: var(--space-10px);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-28: var(--space-28);
+  --spacing-7: var(--space-7);
+  --spacing-40: var(--space-40);
+  --spacing-48: var(--space-48);
+  --spacing-64: var(--space-64);
+
+  /* Component and layout sizes (Size collection) — width/height/padding utilities. */
+  --spacing-icon-sm: var(--icon-sm);
+  --spacing-icon-md: var(--icon-md);
+  --spacing-icon-lg: var(--icon-lg);
+  --spacing-icon-xl: var(--icon-xl);
+  --spacing-control-h-xs: var(--control-h-xs);
+  --spacing-control-h-sm: var(--control-h-sm);
+  --spacing-control-h-md: var(--control-h-md);
+  --spacing-control-h-lg: var(--control-h-lg);
+  --spacing-control-h-xl: var(--control-h-xl);
+  --spacing-avatar-xs: var(--avatar-xs);
+  --spacing-avatar-sm: var(--avatar-sm);
+  --spacing-avatar-md: var(--avatar-md);
+  --spacing-avatar-lg: var(--avatar-lg);
+  --spacing-avatar-xl: var(--avatar-xl);
+  --spacing-row-h-menu: var(--row-h-menu);
+  --spacing-sidebar-board-row-h: var(--sidebar-board-row-h);
+  --spacing-sidebar-row-h: var(--sidebar-row-h);
+  --spacing-row-h-list: var(--row-h-list);
+  --spacing-row-h-snackbar: var(--row-h-snackbar);
+  --spacing-sidebar-w: var(--sidebar-w);
+  --spacing-sidebar-rail-w: var(--sidebar-rail-w);
+  --spacing-sidebar-pad: var(--sidebar-pad);
+  --spacing-topbar-h: var(--topbar-h);
+  --spacing-kanban-column-min-width: var(--kanban-column-min-width);
+  --spacing-kanban-board-column-gap: var(--kanban-board-column-gap);
+  --spacing-task-aside-w: var(--task-aside-w);
+  --spacing-notif-drawer-w: var(--notif-drawer-w);
+  --spacing-notif-drawer-h: var(--notif-drawer-h);
+  --spacing-reading-max: var(--reading-max);
+  --spacing-content-max: var(--content-max);
+  --spacing-content-pad: var(--content-pad);
+  --spacing-modal-w-sm: var(--modal-w-sm);
+  --spacing-modal-w-md: var(--modal-w-md);
+  --spacing-modal-w-lg: var(--modal-w-lg);
+  --spacing-modal-w-xl: var(--modal-w-xl);
+  --spacing-modal-w-2xl: var(--modal-w-2xl);
+  --spacing-modal-w-2xl-h: var(--modal-w-2xl-h);
+  --spacing-opacity-disabled: var(--opacity-disabled);
+  --spacing-opacity-dragging: var(--opacity-dragging);
+  --spacing-stroke-hairline: var(--stroke-hairline);
+  --spacing-stroke-control: var(--stroke-control);
+  --spacing-stroke-focus: var(--stroke-focus);
+  --spacing-checkbox-size: var(--checkbox-size);
+  --spacing-counter-size: var(--counter-size);
+  --spacing-tag-height: var(--tag-height);
+  --spacing-switch-track-w: var(--switch-track-w);
+  --spacing-switch-track-h: var(--switch-track-h);
+  --spacing-switch-knob: var(--switch-knob);
+  --spacing-spinner-size-regular: var(--spinner-size-regular);
+  --spacing-spinner-size-compact: var(--spinner-size-compact);
+  --spacing-progress-track-h: var(--progress-track-h);
+  --spacing-progress-fixed-w: var(--progress-fixed-w);
+  --spacing-swatch-dot: var(--swatch-dot);
+  --spacing-badge-dot: var(--badge-dot);
+  --spacing-skeleton-line-h: var(--skeleton-line-h);
+  --spacing-skeleton-block-h: var(--skeleton-block-h);
+  --spacing-avatar-overlap: var(--avatar-overlap);
+  --spacing-avatar-ring: var(--avatar-ring);
+  --spacing-textarea-min-h: var(--textarea-min-h);
+  --spacing-button-min-w: var(--button-min-w);
+  --spacing-comp-search-fixed: var(--comp-search-fixed);
+  --spacing-comp-menu-item: var(--comp-menu-item);
+  --spacing-comp-sidebar-row: var(--comp-sidebar-row);
+  --spacing-sidebar-fade-rest: var(--sidebar-fade-rest);
+  --spacing-sidebar-fade-hover: var(--sidebar-fade-hover);
+  --spacing-sidebar-email-fade: var(--sidebar-email-fade);
+  --spacing-comp-kanban-card: var(--comp-kanban-card);
+  --spacing-comp-stage-mark-w: var(--comp-stage-mark-w);
+  --spacing-comp-stage-mark-h: var(--comp-stage-mark-h);
+  --spacing-comp-stage-mark-tab: var(--comp-stage-mark-tab);
+  --spacing-opacity-dragging-pct: var(--opacity-dragging-pct);
+  --spacing-task-lane-w: var(--task-lane-w);
+  --spacing-comp-table-col-sm: var(--comp-table-col-sm);
+  --spacing-comp-table-col-md: var(--comp-table-col-md);
+  --spacing-comp-property-col: var(--comp-property-col);
+  --spacing-comp-project-card: var(--comp-project-card);
+  --spacing-comp-settings-nav: var(--comp-settings-nav);
+  --spacing-comp-filterbar: var(--comp-filterbar);
+  --spacing-comp-group-header: var(--comp-group-header);
+  --spacing-comp-property-gap: var(--comp-property-gap);
+  --spacing-comp-auth-card: var(--comp-auth-card);
+  --spacing-comp-auth-field-gap: var(--comp-auth-field-gap);
+  --spacing-comp-workspace-card: var(--comp-workspace-card);
+  --spacing-comp-workspace-row: var(--comp-workspace-row);
+  --spacing-comp-landing-max: var(--comp-landing-max);
+  --spacing-comp-landing-card: var(--comp-landing-card);
+  --spacing-comp-history-icon: var(--comp-history-icon);
+  --spacing-comp-sidebar-brand: var(--comp-sidebar-brand);
+  --spacing-comp-empty-text: var(--comp-empty-text);
+  --spacing-comp-empty-text-sm: var(--comp-empty-text-sm);
+  --spacing-comp-column-min: var(--comp-column-min);
+  --spacing-comp-snackbar-max: var(--comp-snackbar-max);
+  --spacing-comp-snackbar-stripe: var(--comp-snackbar-stripe);
+  --spacing-comp-popover-menu: var(--comp-popover-menu);
+  --spacing-comp-popover-grid: var(--comp-popover-grid);
+  --spacing-comp-popover-panel: var(--comp-popover-panel);
+  --spacing-comp-surface-header: var(--comp-surface-header);
+  --spacing-layout-window-h: var(--layout-window-h);
+  --spacing-due-lane-w: var(--due-lane-w);
+  --spacing-timer-lane-w: var(--timer-lane-w);
+
+  /* Breakpoints must be literal: a media query cannot read a custom property. */
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 900px;
+  --breakpoint-lg: 1200px;
+  --breakpoint-xl: 1440px;
+
+  /* Radius. The token name already lives in Tailwind's --radius-* namespace. */
+  --radius-2: var(--radius-2);
+  --radius-sm: var(--radius-sm);
+  --radius-6: var(--radius-6);
+  --radius-md: var(--radius-md);
+  --radius-10: var(--radius-10);
+  --radius-lg: var(--radius-lg);
+  --radius-14: var(--radius-14);
+  --radius-xl: var(--radius-xl);
+  --radius-full: var(--radius-full);
+  --radius-role-mark: var(--radius-role-mark);
+  --radius-role-tag: var(--radius-role-tag);
+  --radius-role-control: var(--radius-role-control);
+  --radius-role-card: var(--radius-role-card);
+  --radius-role-row: var(--radius-role-row);
+  --radius-role-overlay: var(--radius-role-overlay);
+  --radius-role-surface: var(--radius-role-surface);
+  --radius-role-auth: var(--radius-role-auth);
+  --radius-role-pill: var(--radius-role-pill);
+
+  /* Typography. */
+  --font-sans: var(--font);
+  --text-display-lg: var(--text-display-lg);
+  --text-display-lg--line-height: var(--leading-display-lg);
+  --text-display-lg--letter-spacing: var(--tracking-display-lg);
+  --text-display-lg--font-weight: var(--font-weight-display-lg);
+  --leading-display-lg: var(--leading-display-lg);
+  --tracking-display-lg: var(--tracking-display-lg);
+  --font-weight-display-lg: var(--font-weight-display-lg);
+  --text-heading-h1: var(--text-heading-h1);
+  --text-heading-h1--line-height: var(--leading-heading-h1);
+  --text-heading-h1--letter-spacing: var(--tracking-heading-h1);
+  --text-heading-h1--font-weight: var(--font-weight-heading-h1);
+  --leading-heading-h1: var(--leading-heading-h1);
+  --tracking-heading-h1: var(--tracking-heading-h1);
+  --font-weight-heading-h1: var(--font-weight-heading-h1);
+  --text-heading-h2: var(--text-heading-h2);
+  --text-heading-h2--line-height: var(--leading-heading-h2);
+  --text-heading-h2--letter-spacing: var(--tracking-heading-h2);
+  --text-heading-h2--font-weight: var(--font-weight-heading-h2);
+  --leading-heading-h2: var(--leading-heading-h2);
+  --tracking-heading-h2: var(--tracking-heading-h2);
+  --font-weight-heading-h2: var(--font-weight-heading-h2);
+  --text-heading-h3: var(--text-heading-h3);
+  --text-heading-h3--line-height: var(--leading-heading-h3);
+  --text-heading-h3--letter-spacing: var(--tracking-heading-h3);
+  --text-heading-h3--font-weight: var(--font-weight-heading-h3);
+  --leading-heading-h3: var(--leading-heading-h3);
+  --tracking-heading-h3: var(--tracking-heading-h3);
+  --font-weight-heading-h3: var(--font-weight-heading-h3);
+  --text-body-md: var(--text-body-md);
+  --text-body-md--line-height: var(--leading-body-md);
+  --text-body-md--letter-spacing: var(--tracking-body-md);
+  --text-body-md--font-weight: var(--font-weight-body-md);
+  --leading-body-md: var(--leading-body-md);
+  --tracking-body-md: var(--tracking-body-md);
+  --font-weight-body-md: var(--font-weight-body-md);
+  --text-body-md-strong: var(--text-body-md-strong);
+  --text-body-md-strong--line-height: var(--leading-body-md-strong);
+  --text-body-md-strong--letter-spacing: var(--tracking-body-md-strong);
+  --text-body-md-strong--font-weight: var(--font-weight-body-md-strong);
+  --leading-body-md-strong: var(--leading-body-md-strong);
+  --tracking-body-md-strong: var(--tracking-body-md-strong);
+  --font-weight-body-md-strong: var(--font-weight-body-md-strong);
+  --text-ui-md: var(--text-ui-md);
+  --text-ui-md--line-height: var(--leading-ui-md);
+  --text-ui-md--letter-spacing: var(--tracking-ui-md);
+  --text-ui-md--font-weight: var(--font-weight-ui-md);
+  --leading-ui-md: var(--leading-ui-md);
+  --tracking-ui-md: var(--tracking-ui-md);
+  --font-weight-ui-md: var(--font-weight-ui-md);
+  --text-ui-md-regular: var(--text-ui-md-regular);
+  --text-ui-md-regular--line-height: var(--leading-ui-md-regular);
+  --text-ui-md-regular--letter-spacing: var(--tracking-ui-md-regular);
+  --text-ui-md-regular--font-weight: var(--font-weight-ui-md-regular);
+  --leading-ui-md-regular: var(--leading-ui-md-regular);
+  --tracking-ui-md-regular: var(--tracking-ui-md-regular);
+  --font-weight-ui-md-regular: var(--font-weight-ui-md-regular);
+  --text-ui-md-tabular: var(--text-ui-md-tabular);
+  --text-ui-md-tabular--line-height: var(--leading-ui-md-tabular);
+  --text-ui-md-tabular--letter-spacing: var(--tracking-ui-md-tabular);
+  --text-ui-md-tabular--font-weight: var(--font-weight-ui-md-tabular);
+  --leading-ui-md-tabular: var(--leading-ui-md-tabular);
+  --tracking-ui-md-tabular: var(--tracking-ui-md-tabular);
+  --font-weight-ui-md-tabular: var(--font-weight-ui-md-tabular);
+  --text-caption-sm: var(--text-caption-sm);
+  --text-caption-sm--line-height: var(--leading-caption-sm);
+  --text-caption-sm--letter-spacing: var(--tracking-caption-sm);
+  --text-caption-sm--font-weight: var(--font-weight-caption-sm);
+  --leading-caption-sm: var(--leading-caption-sm);
+  --tracking-caption-sm: var(--tracking-caption-sm);
+  --font-weight-caption-sm: var(--font-weight-caption-sm);
+  --text-caption-sm-strong: var(--text-caption-sm-strong);
+  --text-caption-sm-strong--line-height: var(--leading-caption-sm-strong);
+  --text-caption-sm-strong--letter-spacing: var(--tracking-caption-sm-strong);
+  --text-caption-sm-strong--font-weight: var(--font-weight-caption-sm-strong);
+  --leading-caption-sm-strong: var(--leading-caption-sm-strong);
+  --tracking-caption-sm-strong: var(--tracking-caption-sm-strong);
+  --font-weight-caption-sm-strong: var(--font-weight-caption-sm-strong);
+  --text-caption-sm-tabular: var(--text-caption-sm-tabular);
+  --text-caption-sm-tabular--line-height: var(--leading-caption-sm-tabular);
+  --text-caption-sm-tabular--letter-spacing: var(--tracking-caption-sm-tabular);
+  --text-caption-sm-tabular--font-weight: var(--font-weight-caption-sm-tabular);
+  --leading-caption-sm-tabular: var(--leading-caption-sm-tabular);
+  --tracking-caption-sm-tabular: var(--tracking-caption-sm-tabular);
+  --font-weight-caption-sm-tabular: var(--font-weight-caption-sm-tabular);
+  --text-label-sm: var(--text-label-sm);
+  --text-label-sm--line-height: var(--leading-label-sm);
+  --text-label-sm--letter-spacing: var(--tracking-label-sm);
+  --text-label-sm--font-weight: var(--font-weight-label-sm);
+  --leading-label-sm: var(--leading-label-sm);
+  --tracking-label-sm: var(--tracking-label-sm);
+  --font-weight-label-sm: var(--font-weight-label-sm);
+  --text-mono-sm: var(--text-mono-sm);
+  --text-mono-sm--line-height: var(--leading-mono-sm);
+  --text-mono-sm--letter-spacing: var(--tracking-mono-sm);
+  --text-mono-sm--font-weight: var(--font-weight-mono-sm);
+  --leading-mono-sm: var(--leading-mono-sm);
+  --tracking-mono-sm: var(--tracking-mono-sm);
+  --font-weight-mono-sm: var(--font-weight-mono-sm);
+
+  /* Elevation. */
+  --shadow-raised: var(--shadow-raised);
+  --shadow-popover: var(--shadow-popover);
+  --shadow-overlay: var(--shadow-overlay);
+
+  /* Easing. Durations and z-index have no Tailwind namespace — use the raw tokens. */
+  --ease-standard: var(--ease);
+  --ease-linear: var(--ease-linear);
+}
