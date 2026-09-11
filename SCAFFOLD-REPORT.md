@@ -621,7 +621,7 @@ Altis накопил ещё и слой имён под конкретные к�
 
 ## 8. Git
 
-Четыре коммита в `main`, каждый заканчивается строкой
+Шесть коммитов в `main`, каждый заканчивается строкой
 `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`:
 
 ```
@@ -630,6 +630,7 @@ feat(tokens): generate css, tailwind theme, ts and paper map from tokens.json
 feat(registry): add the tokens item and the registry catalogue
 ci: run tokens:check, registry:validate, typecheck and test on every push
 docs: add the phase 0 scaffold report
+docs: record the push and the sources the report was written from
 ```
 
 Remote: `origin git@github.com:kenetatuse80471-creator/cubby-ui.git`.
