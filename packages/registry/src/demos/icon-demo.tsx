@@ -66,6 +66,29 @@ function IconDemo() {
           </span>
         </DemoCell>
       </DemoRow>
+
+      <DemoRow label="Произвольный SVG — icon необязателен, вместо него children (первому потребителю нужен свой спрайт, не Hugeicons)">
+        <DemoCell label="md · дословный SVG, не из Hugeicons">
+          <Icon size="md">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+              <path d="M12 3l7 4v10l-7 4-7-4V7l7-4Z" strokeLinejoin="round" />
+            </svg>
+          </Icon>
+        </DemoCell>
+        <DemoCell label='lg · спрайт потребителя, <use href="#role">, символ описан тут же'>
+          <Icon size="lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+              <defs>
+                <symbol id="cubby-ui-demo-role" viewBox="0 0 24 24">
+                  <circle cx="12" cy="8" r="3.25" />
+                  <path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6" strokeLinecap="round" />
+                </symbol>
+              </defs>
+              <use href="#cubby-ui-demo-role" />
+            </svg>
+          </Icon>
+        </DemoCell>
+      </DemoRow>
     </DemoGrid>
   );
 }

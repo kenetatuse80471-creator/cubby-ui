@@ -123,6 +123,23 @@ describe("shape", () => {
     expect(renderToStaticMarkup(<Icon icon={Alert01Icon} />)).toContain('aria-hidden="true"');
   });
 
+  it("icon draws a consumer's own SVG when given children instead of icon", () => {
+    const html = renderToStaticMarkup(
+      <Icon size="lg">
+        <svg viewBox="0 0 24 24">
+          <use href="#role-notifications" />
+        </svg>
+      </Icon>,
+    );
+    // A <span>, not a HugeiconsIcon: same slot, same size class, same aria-hidden — the
+    // sprite is drawn verbatim inside it.
+    expect(html).toContain('data-slot="icon"');
+    expect(html).toContain('aria-hidden="true"');
+    expect(html).toContain("size-icon-lg");
+    expect(html).toContain('href="#role-notifications"');
+    expect(html).toMatch(/^<span/);
+  });
+
   it("tag renders its cross only with an accessible name", () => {
     const plain = renderToStaticMarkup(<Tag>Метка</Tag>);
     expect(plain).not.toContain('data-slot="tag-remove"');
