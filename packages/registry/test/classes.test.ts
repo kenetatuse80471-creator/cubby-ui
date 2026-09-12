@@ -90,6 +90,18 @@ describe("classes", () => {
     );
   });
 
+  it("a call to a *Variants function carries variant keys, not classes", () => {
+    // The site imports `buttonVariants` from the registry and calls it inside `cn(...)`. Its keys
+    // ("secondary", "compact") are variant names, and reading them as classes made the gate
+    // report two utilities that were never written.
+    const source = [
+      'import { buttonVariants } from "@/registry/cubby/ui/button";',
+      'const link = cn(buttonVariants({ variant: "secondary", size: "compact" }), "sm:ml-auto");',
+    ].join("\n");
+    const found = classCandidates(source, "sample.tsx").map((candidate) => candidate.value);
+    expect(found).toEqual(["sm:ml-auto"]);
+  });
+
   it("really fails on a typo", () => {
     // A class the components do use, so the lookup itself is known to work…
     expect(hasRule(css, "bg-film-1")).toBe(true);

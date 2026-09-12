@@ -146,10 +146,17 @@ const literalsBetween = (scan: Scan, from: number, to: number) =>
  * classes: the classes for "neutral" already live inside the `cva(...)` definition itself and
  * are picked up by the scan above. Nesting such a call inside `cn(...)` must not make its
  * arguments look like class literals too.
+ *
+ * Any call to an identifier ending in `Variants` counts, not only one defined in this file: the
+ * site imports `buttonVariants` from the registry and calls it inside `cn(...)`, and its keys
+ * ("secondary", "compact") are variant names there exactly as they are here.
  */
 function variantsFunctionNames(masked: string): Set<string> {
   const names = new Set<string>();
   for (const match of masked.matchAll(/\b([A-Za-z_$][\w$]*)\s*=\s*cva\s*\(/g)) {
+    names.add(match[1] as string);
+  }
+  for (const match of masked.matchAll(/\b([A-Za-z_$][\w$]*Variants)\s*\(/g)) {
     names.add(match[1] as string);
   }
   return names;
