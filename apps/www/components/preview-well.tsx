@@ -22,7 +22,8 @@ import type { ReactNode } from "react";
  * component page: a preview cannot flatter a component with values the component
  * would not get in a real product.
  *
- * `min-height: 400px` is measured (§3.3).
+ * The floor's `min-height` is `--site-preview-min-h`; see the token for why it is beui's
+ * 316 rather than reactbits's 400.
  */
 export function PreviewWell({ children }: { children: ReactNode }) {
   return (
