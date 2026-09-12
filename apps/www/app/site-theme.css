@@ -29,7 +29,9 @@
 :root {
   /* --- Marketing type. Sizes the library deliberately does not have (§6.3). --- */
   --site-text-hero: 64px;
-  /* 1440 → 64; at 375 the references drop to 40 (§1.1). Applied in globals.css. */
+  /* 1440 → 64; at 375 the references drop to 40 (§1.1). Applied by the
+     small-breakpoint block below — see the note there about why it is not in
+     `globals.css`, where it spent its first version having no effect at all. */
   --site-text-hero-mobile: 40px;
   --site-text-hero-sub: 18px;
   --site-text-h2: 36px;
@@ -45,6 +47,13 @@
   --site-tracking-h2: -0.025em;
   --site-tracking-eyebrow: 0.22em;
   --site-leading-hero: 0.95;
+  /*
+   * A section heading is not a hero. beui's H2 is 36 on a 45px line — 1.25 — while its
+   * hero runs at 0.92 (§1.1): a headline two or three words long can be packed, a
+   * section title with descenders sitting on a rule cannot. Measured, and separate
+   * from `--site-leading-hero`, which it used to borrow.
+   */
+  --site-leading-h2: 1.25;
   --site-leading-body: 1.6;
 
   /*
@@ -64,6 +73,28 @@
   /* Code: 13px on a 20px line, no line numbers (§6.1). */
   --site-text-code: 13px;
   --site-leading-code: 20px;
+
+  /* --- The landing (§1.7, §6.2). Three widths the documentation has no use for. --- */
+  /*
+   * The hero paragraph. §6.2 gives the range the references sit in — 448 to 530 —
+   * and beui's own 448 is measured at 16px (§1.7 item 1). Ours is set at 18, so it
+   * takes the top of that range to break on the same two or three lines instead of
+   * five. Deliberately NOT `--site-lead-max` (672): that is the width of a docs lead
+   * paragraph, which is read leaning in, not from across a room.
+   */
+  --site-hero-lead-max: 530px;
+  /* The install terminal — beui's measured width (§1.7 item 3). Equal to the docs
+     lead by coincidence, not by derivation: two separate measurements that agree. */
+  --site-install-max: 672px;
+  /*
+   * The well of a card in the landing grid. The row is 304 high (§6.2 item 3) and
+   * everything else in the card is fixed: 8 above the well, and below it 12 + 22
+   * (the name, `--text-heading-h3`) + 16 (the description, `--text-caption-sm`) + 8,
+   * plus the card's own 8 and the 2 of its stroke — 76 in all. 304 − 76 = 228.
+   * The height is fixed on purpose: a grid whose rows each find their own height is
+   * the thing that makes a catalogue look assembled by hand.
+   */
+  --site-card-well-h: 228px;
 
   /* --- Layout of the shell (§6.1: three columns, 240 / 816 / 256). --- */
   --site-container: 1280px;
@@ -95,6 +126,9 @@
 
   /* Vertical rhythm. The shorthands are composed, so each number is written once. */
   --site-hero-top: 112px;
+  /* beui's own `pt-20 md:pt-28` — 80 on a phone, 112 above it (§1.3). Applied by the
+     small-breakpoint block below, the same mechanism as the hero's type size. */
+  --site-hero-top-mobile: 80px;
   --site-hero-bottom: 80px;
   --site-section-top: 56px;
   --site-section-bottom: 64px;
@@ -138,6 +172,25 @@
 }
 
 /*
+ * The one responsive value in the scale. The references drop the hero from their
+ * desktop size to roughly two thirds of it below the small breakpoint (§1.1: beui goes
+ * 72 → 48); ours goes 64 → 40. `--breakpoint-sm` is 600px in the tokens, written out
+ * here because a media query cannot read a custom property.
+ *
+ * It has to be **unlayered, in this file**, next to the value it replaces. It used to
+ * live in `globals.css` inside `@layer base`, where it never once applied: an unlayered
+ * rule wins against a layered one regardless of specificity, and the `:root` above is
+ * unlayered by design. The result was a 64px headline running off the side of every
+ * phone, invisible on a desktop screenshot.
+ */
+@media (width < 600px) {
+  :root {
+    --site-text-hero: var(--site-text-hero-mobile);
+    --site-hero-top: var(--site-hero-top-mobile);
+  }
+}
+
+/*
  * The spec measured the dark theme only (§7 item 8) — light was out of scope, and
  * the four values here started as a straight inversion by the previous pass. Two of
  * them were wrong on screen and are corrected; the reasoning is written down because
@@ -172,7 +225,7 @@
   --text-site-hero-sub--line-height: var(--site-leading-body);
 
   --text-site-h2: var(--site-text-h2);
-  --text-site-h2--line-height: var(--site-leading-hero);
+  --text-site-h2--line-height: var(--site-leading-h2);
   --text-site-h2--letter-spacing: var(--site-tracking-h2);
 
   --text-site-eyebrow: var(--site-text-eyebrow);
@@ -196,6 +249,8 @@
   --container-site-docs: var(--site-docs);
   --container-site-shell: var(--site-docs-shell);
   --container-site-lead: var(--site-lead-max);
+  --container-site-hero-lead: var(--site-hero-lead-max);
+  --container-site-install: var(--site-install-max);
 
   --spacing-site-sidebar: var(--site-sidebar);
   --spacing-site-toc: var(--site-toc);
@@ -209,6 +264,7 @@
   --spacing-site-preview: var(--site-preview-min-h);
   --spacing-site-code-max: var(--site-code-max-h);
   --spacing-site-code-fade: var(--site-code-fade);
+  --spacing-site-card-well: var(--site-card-well-h);
 
   /* Radii, strokes, elevation. */
   --radius-site-card: var(--site-radius-card);

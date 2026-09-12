@@ -106,13 +106,14 @@
     font-family: var(--site-font-mono);
   }
 
-  /* The references drop the hero from 64 to 40 below the small breakpoint
-     (reference spec §1.1); `--breakpoint-sm` is 600px in the tokens. */
-  @media (width < 600px) {
-    :root {
-      --site-text-hero: var(--site-text-hero-mobile);
-    }
-  }
+  /*
+   * The hero's mobile size used to be overridden here and never took effect: an
+   * unlayered rule beats a layered one whatever the specificity, and `site-theme.css`
+   * declares `--site-text-hero` unlayered on purpose (that is what keeps the token
+   * literals in charge of Tailwind's own `@layer theme`). So the override sat inside
+   * `@layer base` losing every cascade, and the 64px headline ran off the side of a
+   * 375px screen. It now lives next to the value it overrides, in `site-theme.css`.
+   */
 }
 
 /* ---------------------------------------------------------------------------
